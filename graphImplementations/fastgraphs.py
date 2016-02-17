@@ -1,4 +1,4 @@
-from package.basicgraphs import vertex, graph, GraphError, edge
+from graphImplementations.basicgraphs import vertex, graph, GraphError, edge
 
 class vertex(vertex):
 
