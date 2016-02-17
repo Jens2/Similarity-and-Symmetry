@@ -6,3 +6,4 @@ class Sikkel:
         return 'tru'
 
 print("Werkt bij Gijs!")
+print("Werkt bij Jens")
