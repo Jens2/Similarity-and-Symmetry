@@ -7,3 +7,4 @@ class Sikkel:
 
 print("Werkt bij Gijs!")
 print("Werkt bij Jens")
+print("ik haat github opzetten")
