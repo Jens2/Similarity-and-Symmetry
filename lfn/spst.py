@@ -10,9 +10,6 @@ TestKruskal = False
 
 WriteDOTFiles = True
 
-
-
-
 # Use these options to select the graphs to test your algorithms on:
 # TestInstances = ["weightedexample.gr"]
 # TestInstances=["randomplanar.gr"]
