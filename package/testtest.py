@@ -1,6 +1,6 @@
 print("Succes!")
 
-def class Sikkel:
+class Sikkel:
 
     def getTrue():
         return 'tru'
