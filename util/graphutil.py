@@ -108,8 +108,6 @@ def BFScheck(G, start):
     writeDOT(G, 'BFS.dot')
     return len(traversed) == len(G.V())
 
-G = loadgraph('examplegraph.gr')
-print(BFScheck(G, G.V()[0]))
 
 def DFScheck(G, start):
     traversed = list()
