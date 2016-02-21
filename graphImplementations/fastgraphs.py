@@ -1,10 +1,10 @@
 from graphImplementations.basicgraphs import vertex, graph, GraphError, edge
 
-class vertex(vertex):
 
-    def __init__(self,graph,label=0):
-        self._graph=graph
-        self._label=label
+class FastVertex(vertex):
+    def __init__(self, graph, label=0):
+        self._graph = graph
+        self._label = label
 
         self._inclist = []
 
@@ -15,8 +15,7 @@ class vertex(vertex):
         self._inclist.append(edge)
 
 
-class graph(graph):
-
+class FastGraph(graph):
     def addvertex(self, label=-1):
         """
         Add a vertex to the graph.
@@ -29,7 +28,7 @@ class graph(graph):
         self._V.append(u)
         return u
 
-    def addedge(self,tail,head):
+    def addedge(self, tail, head):
         """
 		Add an edge to the graph between <tail> and <head>.
 		Includes some checks in case the graph should stay simple.
@@ -64,4 +63,3 @@ class graph(graph):
             if tupel.head() == u or tupel.tail() == u:
                 return True
         return False
-

@@ -1,6 +1,7 @@
-from graphImplementations.basicgraphs import *
-from graphImplementations.graphIO import *
 import copy
+
+from graphImplementations.basicgraphs import *
+from util.graphIO import *
 
 
 # Creates a graph with n vertices, with a path of length n − 1

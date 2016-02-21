@@ -1,4 +1,4 @@
-from graphImplementations.graphIO import loadgraph, writeDOT  # graphIO imports basicgraphs.py, so we do not need to import it here.
+from util.graphIO import loadgraph, writeDOT  # graphIO imports basicgraphs.py, so we do not need to import it here.
 
 # Use these options to change the tests:
 
