@@ -1,7 +1,7 @@
 from graphImplementations.fastgraphs import graph
 
 def colorref(G):
-
+    return -1
 
 
 # Checks for equality of neighbours
