@@ -25,3 +25,8 @@ def colorref(G):
     #                     verander shit
                         print()
     return -1
+
+def checkNeighbourhood(u, v):
+    for node in u.nbs():
+        pass
+    # TODO
