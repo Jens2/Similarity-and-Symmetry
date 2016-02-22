@@ -7,6 +7,8 @@ def colorref(G):
         a[v] = 1
     i = 0
 
+
+# Checks for equality of neighbours
 def checkNeighbourhood(u, v):
     if len(u.nbs()) == len(v.nbs()):
         for n in u.nbs():
