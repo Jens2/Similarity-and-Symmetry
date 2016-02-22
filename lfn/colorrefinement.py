@@ -3,8 +3,9 @@ from graphImplementations.fastgraphs import graph
 def colorref(G):
     a = dict()
     for v in G.V():
-        a[v] = 1
+        a[v] = v.getDegree()
     i = 0
+
 
 
 # Checks for equality of neighbours
