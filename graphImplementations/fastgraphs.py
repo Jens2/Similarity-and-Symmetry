@@ -19,9 +19,14 @@ class FastVertex(vertex):
     def getDegree(self):
         return len(self.inclist())
 
-    def updateColornum(self):
+    def updateColornum(self, num):
+        self._colornum = num
+
+    def updateColornumByOne(self):
         self._colornum += 1
 
+    def getColornum(self):
+        return self._colornum
 
 class FastGraph(graph):
     def addvertex(self, label=-1):
@@ -60,8 +65,8 @@ class FastGraph(graph):
         tail.addToInclist(e)
         head.addToInclist(e)
         # \\\\
-        tail.updateColornum()
-        head.updateColornum()
+        tail.updateColornumByOne()
+        head.updateColornumByOne()
         # ////
         self._E.append(e)
         return e
