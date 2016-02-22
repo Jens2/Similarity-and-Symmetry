@@ -1,7 +1,17 @@
 from graphImplementations.fastgraphs import graph
 
 def colorref(G):
+    listofcolours = []
+    for v in G.V():
+        if listofcolours[v.getDegree] is not None:
+            listofcolours.insert(v.getDegree, listofcolours[v.getDegree].append(v))
+        else:
+            listofcolours.insert(v.getDegree, list().append(v))
+    i = 0
+    # while not done
+
     return -1
+
 
 
 # Checks for equality of neighbours
