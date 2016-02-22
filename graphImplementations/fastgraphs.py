@@ -14,6 +14,9 @@ class FastVertex(vertex):
     def addToInclist(self, edge):
         self._inclist.append(edge)
 
+    def getDegree(self):
+        return len(self.inclist())
+
 
 class FastGraph(graph):
     def addvertex(self, label=-1):

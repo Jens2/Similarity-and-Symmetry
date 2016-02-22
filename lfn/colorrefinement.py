@@ -1,5 +1,4 @@
 from graphImplementations.fastgraphs import graph
-import graphImplementations.basicgraphs
 
 def colorref(G):
     a = dict()
@@ -18,3 +17,5 @@ def checkNeighbourhood(u, v):
     else:
         return False
 
+def checkDegree(u, v):
+    return len(u.getDegree()) == len(v.getDegree())
