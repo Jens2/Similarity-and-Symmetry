@@ -97,8 +97,7 @@ def BellmanFordDirected(G, start):
         for edge in G.E():
             relax(G, edge.weight, edge.tail(), edge.head())
     for edge in (G.E()):
-        boolean = checkForNegativeWeightCycle(edge)
-        if boolean:
+        if checkForNegativeWeightCycle(edge):
             print("\n*******************************\n"
                   "Negative weight cycle detected!\n"
                   "*******************************\n")
