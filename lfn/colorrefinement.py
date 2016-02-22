@@ -1,10 +1,6 @@
 from graphImplementations.fastgraphs import graph
 
 def colorref(G):
-    a = dict()
-    for v in G.V():
-        a[v] = v.getDegree()
-    i = 0
 
 
 
