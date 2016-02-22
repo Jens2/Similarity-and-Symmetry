@@ -2,6 +2,9 @@ from graphImplementations.fastgraphs import graph
 
 def colorref(G):
     listofcolours = []
+    #
+    # create a list which contains the colour number as the index with a list of vertices with the specified colour.
+    #
     for v in G.V():
         if listofcolours[v.getDegree] is not None:
             listofcolours.insert(v.getDegree, listofcolours[v.getDegree].append(v))
