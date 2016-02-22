@@ -11,7 +11,7 @@ def colorref(G):
         else:
             listofcolours.insert(v.getDegree, list().append(v))
     i = 0
-    # while not done
+    # while not done.
 
     return -1
 
