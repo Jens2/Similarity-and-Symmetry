@@ -56,15 +56,15 @@ def colorref(G):
 def checkNeighbourhood(u, v):
     nodedone = []
     for node in u.nbs():
+        done = False
         for neighbour in v.nbs():
             if node.getColornum() == neighbour.getColornum() and neighbour not in nodedone:
                 nodedone.append(neighbour)
+                done = True
                 break
-    if len(nodedone) == len(v.nbs()):
-        return True
-    else:
-        return False
-
+        if not done:
+            return False
+    return True
 """
 Voor het testen van een graph lijst en schrijven naar dot files
 """
