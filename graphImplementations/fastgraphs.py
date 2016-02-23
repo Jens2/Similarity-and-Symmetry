@@ -8,7 +8,7 @@ class FastVertex(vertex):
 
         self._inclist = []
 
-        self._colornum = 0
+        self._colornum = 1
 
     def inclist(self):
         return self._inclist
@@ -37,7 +37,7 @@ class FastGraph(graph):
         if label == -1:
             label = self._nextlabel
             self._nextlabel += 1
-        u = vertex(self, label)
+        u = FastVertex(self, label)
         self._V.append(u)
         return u
 

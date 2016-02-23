@@ -18,6 +18,7 @@ This module also supports edge weighted graphs: edges should/will have an (integ
 # updated 5-2-2015: no black fill color used, when more than numcolors**2 vertices.
 
 import graphImplementations.basicgraphs as basicgraphs
+from graphImplementations.fastgraphs import FastGraph, FastVertex
 
 defaultcolorscheme = "paired12"
 numcolors = 12
@@ -229,10 +230,10 @@ def writeDOT(G, filename, directed=False):
             options += 'label="' + str(v.label) + '",'
         if hasattr(v, 'colortext'):
             options += 'color="' + v.colortext + '",'
-        elif hasattr(v, 'colornum'):
-            options += 'color=' + str(v.colornum % numcolors + 1) + ', colorscheme=' + defaultcolorscheme + ','
-            if v.colornum >= numcolors:
-                options += 'style=filled,fillcolor=' + str((v.colornum // numcolors) % numcolors + 1) + ','
+        elif isinstance(v, FastVertex):
+            options += 'color=' + str(v.getColornum() % numcolors + 1) + ', colorscheme=' + defaultcolorscheme + ','
+            if v.getColornum() >= numcolors:
+                options += 'style=filled,fillcolor=' + str((v.getColornum() // numcolors) % numcolors + 1) + ','
         if len(options) > 0:
             writefile.write('    ' + str(name[v]) + ' [' + options[:-1] + ']\n')
         else:
