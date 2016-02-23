@@ -23,26 +23,30 @@ def colorref(G):
 
     # De colour refinement:
     while changed:
+
         changed = False
         mapofcolourlists = deepcopy(buffer)
+
         for key in mapofcolourlists.keys():
             colourlist = buffer[key]
+
             if len(colourlist) > 1:
                 u = colourlist[0]
-                for v in colourlist:
-                    if u is not v:
-                        if not checkNeighbourhood(u,v):
-                            changed = True
-                            colourlist.remove(v)
-                            if buffer.get(highestDeg + 1) is not None:
-                                oldList = buffer.get(highestDeg + 1)
-                                oldList.append(v)
-                                buffer[highestDeg + 1] = oldList
-                                v.updateColornum(highestDeg + 1)
-                            else:
-                                newList = [v]
-                                buffer[highestDeg + 1] = newList
-                                v.updateColornum(highestDeg + 1)
+
+                for v in colourlist[1:]:
+                    if not checkNeighbourhood(u,v):
+                        changed = True
+                        colourlist.remove(v)
+                        # Voeg de afwijkende vertices toe aan een nieuwe lijst in de buffer map
+                        if buffer.get(highestDeg + 1) is not None:
+                            oldList = buffer.get(highestDeg + 1)
+                            oldList.append(v)
+                            buffer[highestDeg + 1] = oldList
+                            v.updateColornum(highestDeg + 1)
+                        else:
+                            newList = [v]
+                            buffer[highestDeg + 1] = newList
+                            v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
     return G
