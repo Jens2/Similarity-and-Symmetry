@@ -29,6 +29,17 @@ def countIsomorphism(D, I, numberOfVertices, dict):
     if isBijection(dict):
         return 1
 
+    colorclass = None
+    for list in dict:
+        if len(list) >= 4:
+            colorclass = list
+            break
+
+
+
+
+
+
 
     # TODO implement
 

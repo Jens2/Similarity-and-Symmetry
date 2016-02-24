@@ -35,6 +35,7 @@ class FastVertex(vertex):
         return self._colornum
 
 class FastGraph(graph):
+
     def addvertex(self, label=-1):
         """
         Add a vertex to the graph.
