@@ -239,7 +239,6 @@ def writeDOT(G, filename, directed=False):
         else:
             writefile.write('    ' + str(name[v]) + '\n')
     writefile.write('\n')
-
     for e in G.E():
         options = 'penwidth=2,'
         if hasattr(e, 'weight'):

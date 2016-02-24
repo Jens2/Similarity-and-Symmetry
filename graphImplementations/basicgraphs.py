@@ -96,6 +96,12 @@ class edge():
     def __repr__(self):
         return '(' + str(self._tail) + ',' + str(self._head) + ')'
 
+    def setTail(self, tail):
+        self._tail = tail
+
+    def setHead(self, head):
+        self._head = head
+
     def tail(self):
         return self._tail
 

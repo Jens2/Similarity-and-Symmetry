@@ -13,6 +13,9 @@ class FastVertex(vertex):
     def getLabel(self):
         return self._label
 
+    def setGraph(self, G):
+        self._graph = G
+
     def inclist(self):
         return self._inclist
 
