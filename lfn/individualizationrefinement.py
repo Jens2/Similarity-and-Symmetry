@@ -30,10 +30,22 @@ def countIsomorphism(D, I, numberOfVertices, dict):
         return 1
 
     colorclass = None
-    for list in dict:
-        if len(list) >= 4:
-            colorclass = list
+    for key in dict.keys():
+        if len(dict.get(key)) >= 4:
+            colorclass = dict.get(key)
             break
+    x = None
+    for vertex in colorclass:
+        if vertex.getLabel() < numberOfVertices/2:
+            x = vertex
+            break
+    num = 0
+    for vertex in colorclass:
+        if vertex.getLabel() >= numberOfVertices/2:
+            # num += countIsomorphism()
+
+
+
 
 
 
