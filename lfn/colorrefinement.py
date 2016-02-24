@@ -47,9 +47,9 @@ def colorref(G):
                     v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
-    return G
+    # return G
     # Voor wanneer we de map met kleuren willen returnen ipv een graph
-    # return buffer
+    return buffer
 
 def deepCopyMap(mapc):
     result = dict()
@@ -73,7 +73,7 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+# GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
 # i = 0
 # NGL = []
 # # for graph in GL:

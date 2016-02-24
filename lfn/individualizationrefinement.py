@@ -19,6 +19,7 @@ def individualizationref(dict):
                 I.append(vertex)
     print(D)
     print(I)
+    # return D, I
     # countIsomorphism(D, I)
 #
 
@@ -55,5 +56,5 @@ def isBijection(D, I):
 
     pass # TODO implement
 
-GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+GL, options = loadgraph('testGraphs\colorref_smallexample_4_7.grl', FastGraph, True)
 isBalanced(colorref(disjointunion(GL[0], GL[1])))
