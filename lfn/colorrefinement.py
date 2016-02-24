@@ -76,7 +76,7 @@ NGL = []
 # for graph in GL:
 #     writeDOT(graph, str(i) + ".dot")
 #     i += 1
-writeDOT(disjointunion(GL[0], GL[2]), "aaaa.dot")
+writeDOT(colorref(disjointunion(GL[0], GL[1])), "aaaa.dot")
 # print(colorref(GL[0]))
 # for graph in GL:
 #     NGL.append(colorref(graph))
