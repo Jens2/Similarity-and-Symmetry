@@ -20,13 +20,13 @@ def individualizationref(dict, numberOfVertices):
     print(D)
     print(I)
     # return D, I
-    countIsomorphism(D, I, numberOfVertices)
+    countIsomorphism(D, I, numberOfVertices, dict)
 #
 
-def countIsomorphism(D, I, numberOfVertices):
+def countIsomorphism(D, I, numberOfVertices, dict):
     if not isBalanced(D, I, numberOfVertices):
         return 0
-    if isBijection(D, I):
+    if isBijection(dict):
         return 1
 
 
@@ -44,7 +44,11 @@ def isBalanced(D, I, numberOfVertices):
     return counter == 0
 
 
-def isBijection(D, I):
+def isBijection(dict):
+    for key in dict.keys():
+        if len(dict.get(key)) != 2:
+            return False
+    return True
 
 
     pass # TODO implement
