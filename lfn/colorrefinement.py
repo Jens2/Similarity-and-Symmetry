@@ -73,7 +73,7 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-# GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+GL, options = loadgraph('testGraphs\colorref_smallexample_6_15.grl', FastGraph, True)
 # i = 0
 # NGL = []
 # # for graph in GL:
