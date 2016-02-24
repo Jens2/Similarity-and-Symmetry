@@ -43,7 +43,7 @@ def create_complete(n):
 #  Return a new graph that is the disjoint union of g and h
 def disjoint_union(g, h):
     h_copy = copy.deepcopy(h)
-    i = graph(len(g.V()) + len(h.V()))
+    i = FastGraph(len(g.V()) + len(h.V()))
     for EDGE in g.E():
         i._E.append(EDGE)
     offset = len(g.V())

@@ -1,5 +1,6 @@
 from graphImplementations.fastgraphs import *
 from util.graphIO import *
+from util.graphutil import *
 from copy import deepcopy
 
 def colorref(G):
@@ -75,10 +76,9 @@ NGL = []
 # for graph in GL:
 #     writeDOT(graph, str(i) + ".dot")
 #     i += 1
-writeDOT(colorref(GL[0]), "aaaa.dot")
+writeDOT(colorref(disjoint_union(GL[0], GL[2])), "aaaa.dot")
 # print(colorref(GL[0]))
 # for graph in GL:
-#     writeDOT(graph, str(i) + "begin.dot")
 #     NGL.append(colorref(graph))
 #     writeDOT(colorref(graph), str(i) + ".dot")
 #     i += 1
