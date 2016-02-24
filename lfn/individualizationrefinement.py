@@ -20,7 +20,7 @@ def individualizationref(dict, numberOfVertices):
     print(D)
     print(I)
     # return D, I
-    countIsomorphism(D, I, numberOfVertices, dict)
+    return countIsomorphism(D, I, numberOfVertices, dict)
 #
 
 def countIsomorphism(D, I, numberOfVertices, dict):
@@ -28,7 +28,6 @@ def countIsomorphism(D, I, numberOfVertices, dict):
         return 0
     if isBijection(dict):
         return 1
-
 
     # TODO implement
 
@@ -40,7 +39,6 @@ def isBalanced(D, I, numberOfVertices):
                 counter+=1
             else:
                 counter-=1
-    print(counter == 0)
     return counter == 0
 
 
@@ -51,8 +49,6 @@ def isBijection(dict):
     return True
 
 
-    pass # TODO implement
-
 GL, options = loadgraph('testGraphs\colorref_smallexample_4_7.grl', FastGraph, True)
 dict, numberOfVertices = colorref(disjointunion(GL[0], GL[1]))
-individualizationref(dict, numberOfVertices)
+print(individualizationref(dict, numberOfVertices))
