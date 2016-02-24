@@ -1,7 +1,4 @@
-from graphImplementations.fastgraphs import *
-from util.graphIO import *
 from util.graphutil import *
-from copy import deepcopy
 
 def colorref(G):
     #
@@ -25,7 +22,7 @@ def colorref(G):
     while changed:
 
         changed = False
-        mapofcolourlists = deepcopy(buffer)
+        mapofcolourlists = deepCopyMap(buffer)
 
         for key in mapofcolourlists.keys():
             colourlist = buffer[key]
@@ -50,10 +47,15 @@ def colorref(G):
                     v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
-    print(buffer)
     return G
     # Voor wanneer we de map met kleuren willen returnen ipv een graph
     # return buffer
+
+def deepCopyMap(mapc):
+    result = dict()
+    for key in mapc.keys():
+        result[key] = mapc.get(key)
+    return result
 
 def checkNeighbourhood(u, v):
     nodedone = []
@@ -71,17 +73,17 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
-i = 0
-NGL = []
-
+# GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+# i = 0
+# NGL = []
+# # for graph in GL:
+# #     writeDOT(graph, str(i) + ".dot")
+# #     i += 1
+# # writeDOT(colorref(disjointunion(GL[0], GL[1])), "aaaa.dot")
+# # print(colorref(GL[0]))
 # for graph in GL:
-#     writeDOT(graph, str(i) + ".dot")
-#     i += 1
-writeDOT(colorref(disjointunion(GL[0], GL[2])), "aaaa.dot")
-# print(colorref(GL[0]))
-# for graph in GL:
-#     writeDOT(disjointunion(GL[0], GL[2]), str(i) + ".dot")
+#     NGL.append(colorref(graph))
+#     writeDOT(colorref(graph), str(i) + ".dot")
 #     i += 1
 # writefile = open("hoi.dot", 'wt')
 # def writeln(S):
