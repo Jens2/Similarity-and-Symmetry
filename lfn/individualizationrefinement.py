@@ -12,11 +12,13 @@ def individualizationref(dict):
     I = []
     for key in dict.keys():
         vertices = dict.get(key)
-        for element in vertices:
-            if element < length/2:
-                D.append(element)
+        for vertex in vertices:
+            if int(str(vertex.getLabel())) < length/2:
+                D.append(vertex)
             else:
-                I.append(element)
+                I.append(vertex)
+    print(D)
+    print(I)
     # countIsomorphism(D, I)
 #
 
@@ -39,17 +41,19 @@ def isBalanced(dict):
     length = len(result)
     counter = 0
     for key in dict.keys():
-        for element in dict.get(key):
-            if element < length/2:
+        for vertex in dict.get(key):
+            if int(str(vertex.getLabel())) < length/2:
                 counter+=1
             else:
                 counter-=1
+    print(counter == 0)
     return counter == 0
-
-dict = dict({2: [0, 6, 8, 9], 3: [1, 5, 10, 13], 4: [2, 4, 7, 12], 5: [3, 11]})
-print(isBalanced(dict))
 
 
 def isBijection(D, I):
 
+
     pass # TODO implement
+
+GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+isBalanced(colorref(disjointunion(GL[0], GL[1])))
