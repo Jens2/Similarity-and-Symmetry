@@ -47,8 +47,6 @@ def colorref(G):
                     v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
-    # return G
-    # Voor wanneer we de map met kleuren willen returnen ipv een graph
     return buffer, len(G.V())
 
 def deepCopyMap(mapc):
