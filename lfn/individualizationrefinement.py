@@ -32,14 +32,7 @@ def countIsomorphism(D, I):
 
     # TODO implement
 
-def isBalanced(dict):
-    arrays = dict.values()
-    result = []
-    for array in arrays:
-        for element in array:
-            result.append(element)
-
-    length = len(result)
+def isBalanced(dict, length):
     counter = 0
     for key in dict.keys():
         for vertex in dict.get(key):
@@ -57,4 +50,5 @@ def isBijection(D, I):
     pass # TODO implement
 
 GL, options = loadgraph('testGraphs\colorref_smallexample_4_7.grl', FastGraph, True)
-isBalanced(colorref(disjointunion(GL[0], GL[1])))
+graph1, length = colorref(disjointunion(GL[0], GL[1]))
+isBalanced(graph1, length)
