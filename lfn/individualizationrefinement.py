@@ -9,7 +9,7 @@ def individualizationref(dict):
         D = []
         I = []
         for value in values:
-            if value < length:
+            if value < length/2:
                 D.append(value)
             else:
                 I.append(value)
