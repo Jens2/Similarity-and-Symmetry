@@ -16,6 +16,7 @@ def individualizationref(dict):
     print(D)
     print(I)
 
+
 def countIsomorphism(D, I):
     if not isBalanced(D, I):
         return 0
