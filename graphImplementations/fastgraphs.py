@@ -10,6 +10,9 @@ class FastVertex(vertex):
 
         self._colornum = 1
 
+    def getLabel(self):
+        return self._label
+
     def inclist(self):
         return self._inclist
 

@@ -20,7 +20,6 @@ def colorref(G):
             newList = [v]
             mapofcolourlists[v.getColornum()] = newList
     buffer = mapofcolourlists
-
     # De colour refinement:
     while changed:
 
@@ -32,21 +31,22 @@ def colorref(G):
 
             if len(colourlist) > 1:
                 u = colourlist[0]
-
+                changelist = []
                 for v in colourlist[1:]:
                     if not checkNeighbourhood(u,v):
                         changed = True
                         colourlist.remove(v)
+                        changelist.append(v)
                         # Voeg de afwijkende vertices toe aan een nieuwe lijst in de buffer map
                         if buffer.get(highestDeg + 1) is not None:
                             oldList = buffer.get(highestDeg + 1)
                             oldList.append(v)
                             buffer[highestDeg + 1] = oldList
-                            v.updateColornum(highestDeg + 1)
                         else:
                             newList = [v]
                             buffer[highestDeg + 1] = newList
-                            v.updateColornum(highestDeg + 1)
+                for v in changelist:
+                    v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
     return G
@@ -69,16 +69,19 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
-i = 0
+GL, options = loadgraph('colorref_smallexample_4_16.grl', FastGraph, True)
+i = 4
 NGL = []
 # for graph in GL:
 #     writeDOT(graph, str(i) + ".dot")
 #     i += 1
-for graph in GL:
-    NGL.append(colorref(graph))
-    writeDOT(colorref(graph), str(i) + ".dot")
-    i += 1
+writeDOT(colorref(GL[0]), "aaaa.dot")
+# print(colorref(GL[0]))
+# for graph in GL:
+#     writeDOT(graph, str(i) + "begin.dot")
+#     NGL.append(colorref(graph))
+#     writeDOT(colorref(graph), str(i) + ".dot")
+#     i += 1
 # writefile = open("hoi.dot", 'wt')
 # def writeln(S):
 #     writefile.write(S + '\n')
