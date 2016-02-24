@@ -12,13 +12,12 @@ def individualizationref(dict):
     I = []
     for key in dict.keys():
         vertices = dict.get(key)
-        for value in vertices:
-            if value < length/2:
-                D.append(value)
+        for element in vertices:
+            if element < length/2:
+                D.append(element)
             else:
-                I.append(value)
-    print("D: " + str(D))
-    print("I: " + str(I))
+                I.append(element)
+    countIsomorphism(D, I)
 
 
 dict = dict({2: [0, 6, 8, 9], 3: [1, 5, 10, 13], 4: [2, 4, 7, 12], 5: [3, 11]})
@@ -29,6 +28,7 @@ def countIsomorphism(D, I):
         return 0
     if isBijection(D, I):
         return 1
+
 
     # TODO implement
 
