@@ -3,7 +3,7 @@ from util import *
 
 def individualizationref(dict):
     length = len(dict.values)
-    print(length + " vertices in dictionary")
+    print(str(length) + " vertices in dictionary")
     for key in dict.keys():
         values = dict.get(key)
         D = []
