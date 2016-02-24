@@ -50,6 +50,7 @@ def colorref(G):
                     v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
+    print(buffer)
     return G
     # Voor wanneer we de map met kleuren willen returnen ipv een graph
     # return buffer
@@ -70,17 +71,17 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-GL, options = loadgraph('colorref_smallexample_4_16.grl', FastGraph, True)
-i = 4
+GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+i = 0
 NGL = []
+
 # for graph in GL:
 #     writeDOT(graph, str(i) + ".dot")
 #     i += 1
-writeDOT(disjointunion(GL[0], GL[2]), "aaaa.dot")
+writeDOT(colorref(disjointunion(GL[0], GL[2])), "aaaa.dot")
 # print(colorref(GL[0]))
 # for graph in GL:
-#     NGL.append(colorref(graph))
-#     writeDOT(colorref(graph), str(i) + ".dot")
+#     writeDOT(disjointunion(GL[0], GL[2]), str(i) + ".dot")
 #     i += 1
 # writefile = open("hoi.dot", 'wt')
 # def writeln(S):
