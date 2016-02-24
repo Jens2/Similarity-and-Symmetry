@@ -49,7 +49,7 @@ def colorref(G):
                     highestDeg += 1
     # return G
     # Voor wanneer we de map met kleuren willen returnen ipv een graph
-    return buffer
+    return buffer, len(G.V())
 
 def deepCopyMap(mapc):
     result = dict()
