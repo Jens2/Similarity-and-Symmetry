@@ -12,6 +12,9 @@ class FastVertex(vertex):
     def getLabel(self):
         return self._label
 
+    def setLabel(self, n):
+        self._label = n
+
     def setGraph(self, G):
         self._graph = G
 
