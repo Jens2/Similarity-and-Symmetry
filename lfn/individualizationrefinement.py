@@ -43,7 +43,7 @@ def countIsomorphism(D, I, numberOfVertices, dict):
     for vertex in colorclass:
         if vertex.getLabel() >= numberOfVertices/2:
             D.append(x)
-            I.append(y)
+            I.append(vertex)
             num += countIsomorphism(D, I, numberOfVertices, dict)
 
 
