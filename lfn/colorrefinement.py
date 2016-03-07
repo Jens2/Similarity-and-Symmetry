@@ -6,7 +6,6 @@ def colorref(G):
     # Also keep track of the highest known number
     mapofcolourlists = dict()
     highestDeg = - 1
-    changed = True
     for v in G.V():
         if highestDeg < v.getColornum():
             highestDeg = v.getColornum()
@@ -17,7 +16,15 @@ def colorref(G):
         else:
             newList = [v]
             mapofcolourlists[v.getColornum()] = newList
+    return colouring(mapofcolourlists, highestDeg), len(G.V())
+
+def colouring(mapofcolourlists, highestDeg=-1):
+    changed = True
     buffer = mapofcolourlists
+    if highestDeg == -1:
+        for key in mapofcolourlists.keys():
+            if key > highestDeg:
+                highestDeg = key
     # De colour refinement:
     while changed:
 
@@ -47,7 +54,7 @@ def colorref(G):
                     v.updateColornum(highestDeg + 1)
                 if changed:
                     highestDeg += 1
-    return buffer, len(G.V())
+    return buffer
 
 def deepCopyMap(mapc):
     result = dict()
