@@ -45,6 +45,7 @@ def countIsomorphism(D, I, numberOfVertices, dict):
             D.append(x)
             I.append(vertex)
             num += countIsomorphism(D, I, numberOfVertices, dict)
+    return num
 
 
 
