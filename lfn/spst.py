@@ -266,7 +266,8 @@ if __name__ == "__main__":
                     for e in ST:
                         e.colornum = 1
                     for v in G.V():
-                        v.label = v._label
+                        print()
+                        # v.label = v._label
 
                 if WriteDOTFiles:
                     # writeDOT(G,'graphs/'+testalg[3]+'.dot',directed=testalg[4])

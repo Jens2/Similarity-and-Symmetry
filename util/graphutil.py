@@ -49,15 +49,18 @@ def disjointunion(g, h):
     for vertex in hcopy.V():
         vertex._label += length
         vertex.setGraph(result)
-        node = result.addvertex(vertex)
+        node = result.addvertex(vertex.getLabel())
         listofvertices.append(node)
     for edge in hcopy.E():
         for node in listofvertices:
-            if int(str(edge.tail().getLabel())) is int(str(node.getLabel())):
+            # print(type(node._label))
+            if edge.tail().getLabel() is node.getLabel():
                 edge.setTail(node)
-            elif int(str(edge.head().getLabel())) is int(str(node.getLabel())):
+            elif edge.head().getLabel() is node.getLabel():
                 edge.setHead(node)
         result.addedge(edge.tail(), edge.head())
+    # for node in result:
+    #     print(type(node.getLabel()))
     return result
 
 

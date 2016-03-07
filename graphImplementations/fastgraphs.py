@@ -5,7 +5,6 @@ class FastVertex(vertex):
     def __init__(self, graph, label=0):
         self._graph = graph
         self._label = label
-
         self._inclist = []
 
         self._colornum = 1

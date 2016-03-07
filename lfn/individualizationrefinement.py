@@ -13,18 +13,18 @@ def individualizationref(dict, numberOfVertices):
     for key in dict.keys():
         vertices = dict.get(key)
         for vertex in vertices:
-            if int(str(vertex.getLabel())) < length/2:
+            if vertex.getLabel() < length/2:
                 D.append(vertex)
             else:
                 I.append(vertex)
     print(D)
     print(I)
     # return D, I
-    countIsomorphism(D, I, numberOfVertices, dict)
+    print(countIsomorphism(D, I, numberOfVertices, dict))
 #
 
 def countIsomorphism(D, I, numberOfVertices, dict):
-    if not isBalanced(D, I, numberOfVertices):
+    if not isBalanced(dict, numberOfVertices):
         return 0
     if isBijection(dict):
         return 1
@@ -37,14 +37,14 @@ def countIsomorphism(D, I, numberOfVertices, dict):
     x = None
     num = 0
     if colorclass is not None:
-        for vertex in colorclass:
-            if vertex.getLabel() < numberOfVertices/2:
-                x = vertex
+        for node in colorclass:
+            if node.getLabel() < numberOfVertices//2:
+                x = node
                 break
-        for vertex in colorclass:
-            if vertex.getLabel() >= numberOfVertices/2:
+        for node in colorclass:
+            if node.getLabel() >= numberOfVertices//2:
                 D.append(x)
-                I.append(vertex)
+                I.append(node)
                 num += countIsomorphism(D, I, numberOfVertices, dict)
     return num
 
@@ -61,15 +61,14 @@ def countIsomorphism(D, I, numberOfVertices, dict):
 
     # TODO implement
 
-def isBalanced(D, I, numberOfVertices):
+def isBalanced(dict, numberOfVertices):
     counter = 0
     for key in dict.keys():
         for vertex in dict.get(key):
-            if int(str(vertex.getLabel())) < numberOfVertices/2:
+            if vertex.getLabel() < numberOfVertices//2:
                 counter+=1
             else:
                 counter-=1
-    print(counter == 0)
     return counter == 0
 
 
@@ -83,5 +82,5 @@ def isBijection(dict):
     pass # TODO implement
 
 GL, options = loadgraph('testGraphs\colorref_smallexample_4_7.grl', FastGraph, True)
-dict, numberOfVertices = colorref(disjointunion(GL[0], GL[1]))
-individualizationref(dict, numberOfVertices)
+dict, numberOfVertices = colorref(disjointunion(GL[0], GL[2]))
+print(individualizationref(dict, numberOfVertices))
