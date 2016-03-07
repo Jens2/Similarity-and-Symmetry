@@ -35,16 +35,17 @@ def countIsomorphism(D, I, numberOfVertices, dict):
             colorclass = dict.get(key)
             break
     x = None
-    for vertex in colorclass:
-        if vertex.getLabel() < numberOfVertices/2:
-            x = vertex
-            break
     num = 0
-    for vertex in colorclass:
-        if vertex.getLabel() >= numberOfVertices/2:
-            D.append(x)
-            I.append(vertex)
-            num += countIsomorphism(D, I, numberOfVertices, dict)
+    if colorclass is not None:
+        for vertex in colorclass:
+            if vertex.getLabel() < numberOfVertices/2:
+                x = vertex
+                break
+        for vertex in colorclass:
+            if vertex.getLabel() >= numberOfVertices/2:
+                D.append(x)
+                I.append(vertex)
+                num += countIsomorphism(D, I, numberOfVertices, dict)
     return num
 
 
