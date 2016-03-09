@@ -27,8 +27,8 @@ def countIsomorphism(D, I, numberOfVertices, dict, nodeList=[]):
     if not isBalanced(dict, numberOfVertices):
         return 0
     if isBijection(dict):
+        print("hoi")
         return 1
-    print(dict)
     colorclass = None
     colorChosen = False
     lastKey = None
@@ -48,25 +48,25 @@ def countIsomorphism(D, I, numberOfVertices, dict, nodeList=[]):
                 x = node
                 nodeList.append(x)
                 break
+        dictionary = deepCopyMap(dict)
         for node in colorclass:
-            if node.getLabel() >= numberOfVertices//2 and node not in nodeList:
+            if node.getLabel() >= numberOfVertices//2:
                 # print(x.getLabel())
-                nodeList.append(node)
-                dict.get(lastKey).remove(node)
-                dict.get(lastKey).remove(x)
+                dictionary.get(lastKey).remove(node)
+                dictionary.get(lastKey).remove(x)
 
                 x.updateColornum(highestDeg + 1)
                 node.updateColornum(highestDeg + 1)
                 newColourClass = [x, node]
-                dict[highestDeg + 1] = newColourClass
+                dictionary[highestDeg + 1] = newColourClass
                 # D.append(x)
                 # I.append(node)
-                # dictionary = deepCopyMap(dict)
-                # dictionary = colouring(dictionary)
-                print(dict)
-                # print(dictionary)
-                # num += countIsomorphism(D, I, numberOfVertices, dictionary, nodeList)
-    print("num = " + str(num))
+                dictionary = colouring(dictionary)
+                print(dictionary)
+                count = countIsomorphism(D, I, numberOfVertices, dictionary, nodeList)
+                print(count)
+                num += count
+                print("num = " + str(num))
     return num
 
 
