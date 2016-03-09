@@ -1,5 +1,6 @@
 from lfn.colorrefinement import *
 from util import *
+from time import time
 
 def individualizationref(dict, numberOfVertices):
     arrays = dict.values()
@@ -23,50 +24,49 @@ def individualizationref(dict, numberOfVertices):
     print(countIsomorphism(D, I, numberOfVertices, dict))
 #
 
-def countIsomorphism(D, I, numberOfVertices, dict, nodeList=[]):
+def countIsomorphism(D, I, numberOfVertices, dict, nodeList=-1):
+    if nodeList == -1:
+        nodeList = []
     if not isBalanced(dict, numberOfVertices):
         return 0
     if isBijection(dict):
-        print("hoi")
         return 1
-    colorclass = None
-    colorChosen = False
-    lastKey = None
+    num = 0
     highestDeg = -1
     for key in dict.keys():
-        if len(dict.get(key)) >= 4 and not colorChosen:
-            colorclass = dict.get(key)
-            lastKey = key
-            colorChosen = True
         if key > highestDeg:
             highestDeg = key
 
-    num = 0
-    if colorclass is not None:
-        for node in colorclass:
-            if node.getLabel() < numberOfVertices//2 and node not in nodeList:
-                x = node
-                nodeList.append(x)
-                break
-        dictionary = deepCopyMap(dict)
-        for node in colorclass:
-            if node.getLabel() >= numberOfVertices//2:
-                # print(x.getLabel())
-                dictionary.get(lastKey).remove(node)
-                dictionary.get(lastKey).remove(x)
+    for key in dict.keys():
+        if len(dict.get(key)) >= 4:
+            colorclass = dict.get(key)
+            for node in colorclass:
+                if node.getLabel() < numberOfVertices//2 and node not in nodeList:
+                    x = node
+                    nodeList.append(x)
+                    dictionary = deepCopyMap(dict)
+                    for secondNode in colorclass:
+                        if secondNode.getLabel() >= numberOfVertices//2:
+                            # print(x.getLabel())
+                            dictionary2 = deepCopyMap(dictionary)
+                            dictionary2.get(key).remove(secondNode)
+                            dictionary2.get(key).remove(x)
 
-                x.updateColornum(highestDeg + 1)
-                node.updateColornum(highestDeg + 1)
-                newColourClass = [x, node]
-                dictionary[highestDeg + 1] = newColourClass
-                # D.append(x)
-                # I.append(node)
-                dictionary = colouring(dictionary)
-                print(dictionary)
-                count = countIsomorphism(D, I, numberOfVertices, dictionary, nodeList)
-                print(count)
-                num += count
-                print("num = " + str(num))
+                            x.updateColornum(highestDeg + 1)
+                            secondNode.updateColornum(highestDeg + 1)
+                            newColourClass = [x, secondNode]
+                            dictionary2[highestDeg + 1] = newColourClass
+                            highestDeg += 1
+                            # D.append(x)
+                            # I.append(node)
+                            # print(dictionary)
+                            dictionary2 = colouring(dictionary2)
+                            # print(dictionary)
+                            count = countIsomorphism(D, I, numberOfVertices, dictionary2, nodeList)
+                            # print(count)
+                            # print(node.getLabel())
+                            num += count
+                            # print("num = " + str(num))
     return num
 
 
@@ -102,6 +102,22 @@ def isBijection(dict):
 
     pass # TODO implement
 
-GL, options = loadgraph('testGraphs\\torus24.grl', FastGraph, True)
-dict, numberOfVertices = colorref(disjointunion(GL[0], GL[3]))
+GL, options = loadgraph('testGraphs\\cographs1.grl', FastGraph, True)
+startLoading = time()
+graph1 = loadgraph('testGraphs\\threepaths1280.gr', FastGraph)
+graph2 = loadgraph('testGraphs\\threepaths1280.gr', FastGraph)
+endLoading = time()
+print("Done loading graph: " + str(endLoading - startLoading))
+# dict, numberOfVertices = colorref(disjointunion(GL[1], GL[3]))
+startUnion = time()
+graphUnion = disjointunion(graph1, graph2)
+endUnion = time()
+print("Done getting disjoint union: " + str(endUnion - startUnion))
+startColour = time()
+dict, numberOfVertices = colorref(graphUnion)
+endColour = time()
+print("Colouring took: " + str(endColour - startColour) + " sec")
+start = time()
 individualizationref(dict, numberOfVertices)
+end = time()
+print("Time was: " + str(end - start))
