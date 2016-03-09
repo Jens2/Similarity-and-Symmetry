@@ -13,39 +13,60 @@ def individualizationref(dict, numberOfVertices):
     for key in dict.keys():
         vertices = dict.get(key)
         for vertex in vertices:
-            if vertex.getLabel() < length/2:
+            if vertex.getLabel() < length//2:
                 D.append(vertex)
             else:
                 I.append(vertex)
-    print(D)
-    print(I)
+    # print(D)
+    # print(I)
     # return D, I
     print(countIsomorphism(D, I, numberOfVertices, dict))
 #
 
-def countIsomorphism(D, I, numberOfVertices, dict):
+def countIsomorphism(D, I, numberOfVertices, dict, nodeList=[]):
     if not isBalanced(dict, numberOfVertices):
         return 0
     if isBijection(dict):
         return 1
-
+    print(dict)
     colorclass = None
+    colorChosen = False
+    lastKey = None
+    highestDeg = -1
     for key in dict.keys():
-        if len(dict.get(key)) >= 4:
+        if len(dict.get(key)) >= 4 and not colorChosen:
             colorclass = dict.get(key)
-            break
-    x = None
+            lastKey = key
+            colorChosen = True
+        if key > highestDeg:
+            highestDeg = key
+
     num = 0
     if colorclass is not None:
         for node in colorclass:
-            if node.getLabel() < numberOfVertices//2:
+            if node.getLabel() < numberOfVertices//2 and node not in nodeList:
                 x = node
+                nodeList.append(x)
                 break
         for node in colorclass:
-            if node.getLabel() >= numberOfVertices//2:
-                D.append(x)
-                I.append(node)
-                num += countIsomorphism(D, I, numberOfVertices, dict)
+            if node.getLabel() >= numberOfVertices//2 and node not in nodeList:
+                # print(x.getLabel())
+                nodeList.append(node)
+                dict.get(lastKey).remove(node)
+                dict.get(lastKey).remove(x)
+
+                x.updateColornum(highestDeg + 1)
+                node.updateColornum(highestDeg + 1)
+                newColourClass = [x, node]
+                dict[highestDeg + 1] = newColourClass
+                # D.append(x)
+                # I.append(node)
+                # dictionary = deepCopyMap(dict)
+                # dictionary = colouring(dictionary)
+                print(dict)
+                # print(dictionary)
+                # num += countIsomorphism(D, I, numberOfVertices, dictionary, nodeList)
+    print("num = " + str(num))
     return num
 
 
@@ -81,6 +102,6 @@ def isBijection(dict):
 
     pass # TODO implement
 
-GL, options = loadgraph('testGraphs\colorref_smallexample_4_7.grl', FastGraph, True)
-dict, numberOfVertices = colorref(disjointunion(GL[0], GL[2]))
-print(individualizationref(dict, numberOfVertices))
+GL, options = loadgraph('testGraphs\\torus24.grl', FastGraph, True)
+dict, numberOfVertices = colorref(disjointunion(GL[0], GL[3]))
+individualizationref(dict, numberOfVertices)
