@@ -52,8 +52,8 @@ def countIsomorphism(D, I, numberOfVertices, dict, nodeList=-1):
                             dictionary2.get(key).remove(secondNode)
                             dictionary2.get(key).remove(x)
 
-                            x.updateColornum(highestDeg + 1)
-                            secondNode.updateColornum(highestDeg + 1)
+                            x.setColornum(highestDeg + 1)
+                            secondNode.setColornum(highestDeg + 1)
                             newColourClass = [x, secondNode]
                             dictionary2[highestDeg + 1] = newColourClass
                             highestDeg += 1

@@ -27,7 +27,7 @@ class FastVertex(vertex):
     def getDegree(self):
         return len(self.inclist())
 
-    def updateColornum(self, num):
+    def setColornum(self, num):
         self._colornum = num
 
     def updateColornumByOne(self):
