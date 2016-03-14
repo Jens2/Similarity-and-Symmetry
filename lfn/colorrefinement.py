@@ -169,27 +169,66 @@ def getColoring(G):
         for color in alpha.colors():
             colour_list = buffer.get(color)
             if len(colour_list) > 1:
+                changelist = []
                 u = colour_list[0]
                 for v in colour_list[1:]:
                     if not identicalNeighbourhoods(u, v):
+                        # colour_list.remove(v)
                         changed = True
+                        changelist.append(v)
+                        oldColor = v.getColornum()
                         buffer.move(v, highestDegree + 1)
+                        v.setColornum(oldColor)
+                for v in changelist:
+                    # buffer.move(v, highestDegree + 1)
+                    v.setColornum(highestDegree + 1)
                 if changed:
                     highestDegree += 1
     return buffer
 
+# while changed:
+#
+#         changed = False
+#         mapofcolourlists = deepCopyMap(buffer)
+#
+#         for key in mapofcolourlists.keys():
+#             colourlist = buffer[key]
+#
+#             if len(colourlist) > 1:
+#                 u = colourlist[0]
+#                 changelist = []
+#                 for v in colourlist[1:]:
+#                     if not checkNeighbourhood(u,v):
+#                         changed = True
+#                         colourlist.remove(v)
+#                         changelist.append(v)
+#                         # Voeg de afwijkende vertices toe aan een nieuwe lijst in de buffer map
+#                         if buffer.get(highestDeg + 1) is not None:
+#                             oldList = buffer.get(highestDeg + 1)
+#                             oldList.append(v)
+#                             buffer[highestDeg + 1] = oldList
+#                         else:
+#                             newList = [v]
+#                             buffer[highestDeg + 1] = newList
+#                 for v in changelist:
+#                     v.setColornum(highestDeg + 1)
+#                 if changed:
+#                     highestDeg += 1
 
 # G = FastGraph(7)
+G = loadgraph('bigtrees1.grl', FastGraph, True)[0][0]
 # G.addedge(G.V()[0], G.V()[5])
 # G.addedge(G.V()[1], G.V()[4])
 # G.addedge(G.V()[0], G.V()[3])
-# beta = getColoring(G)
-# # beta.move(G.V()[0], 6)
-# print(colorref(G))
-# beta.print()
-# print("Stable: " + str(beta.isStable()))
-# print("Uniform: " + str(beta.isUniform()))
-# print("Discrete: " + str(beta.isDiscrete()))
+beta = getColoring(G)
+# beta.move(G.V()[0], 6)
+print(colorref(G))
+beta.print()
+print("Stable: " + str(beta.isStable()))
+print("Uniform: " + str(beta.isUniform()))
+print("Discrete: " + str(beta.isDiscrete()))
+
+# writeDOT(G, "test.dot")
 
 
 """
