@@ -217,17 +217,17 @@ def getColoring(G):
 #                     highestDeg += 1
 
 # G = FastGraph(7)
-G = loadgraph('bigtrees1.grl', FastGraph, True)[0][0]
-# G.addedge(G.V()[0], G.V()[5])
-# G.addedge(G.V()[1], G.V()[4])
-# G.addedge(G.V()[0], G.V()[3])
-beta = getColoring(G)
-# beta.move(G.V()[0], 6)
-# print(colorref(G))
-beta.print()
-print("Stable: " + str(beta.isStable()))
-print("Uniform: " + str(beta.isUniform()))
-print("Discrete: " + str(beta.isDiscrete()))
+# G = loadgraph('bigtrees1.grl', FastGraph, True)[0][0]
+# # G.addedge(G.V()[0], G.V()[5])
+# # G.addedge(G.V()[1], G.V()[4])
+# # G.addedge(G.V()[0], G.V()[3])
+# beta = getColoring(G)
+# # beta.move(G.V()[0], 6)
+# # print(colorref(G))
+# beta.print()
+# print("Stable: " + str(beta.isStable()))
+# print("Uniform: " + str(beta.isUniform()))
+# print("Discrete: " + str(beta.isDiscrete()))
 
 # writeDOT(G, "test.dot")
 
@@ -236,7 +236,17 @@ print("Discrete: " + str(beta.isDiscrete()))
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-# GL, options = loadgraph('colorref_smallexample_4_7.grl', FastGraph, True)
+GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+graphUnion = disjointunion(GL[1], GL[3])
+colorref(graphUnion)
+writeDOT(graphUnion, "aaa.dot")
+GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+graphUnion2 = disjointunion(GL[1], GL[3])
+print(colorref(graphUnion))
+getColoring(graphUnion2).print()
+writeDOT(graphUnion2, "aab.dot")
+
+
 # i = 0
 # NGL = []
 # for graph in GL:
