@@ -86,12 +86,12 @@ class coloring:
     def __init__(self):
         self.__colors = dict()
 
-    def put(self, v):
-        if self.__colors.get(v.getColornum) is not None:
-            self.__colors[v.getColornum].append(v)
-        else:
-            self.__colors[v.getColornum] = []
-            self.__colors[v.getColornum].append(v)
+    # def put(self, v):
+    #     if self.__colors.get(v.getColornum) is not None:
+    #         self.__colors[v.getColornum].append(v)
+    #     else:
+    #         self.__colors[v.getColornum] = []
+    #         self.__colors[v.getColornum].append(v)
 
     def put(self, color, v):
         v.setColornum(color)
@@ -116,8 +116,8 @@ class coloring:
 
     def deepcopy(self):
         deepcopy = coloring()
-        for i in range(0, len(self.__colors)):
-            deepcopy.__colors[i] = self.__colors.get(i)
+        for c in self.colors():
+            deepcopy.__colors[c] = self.__colors.get(c)
         return deepcopy
 
     def k(self):
@@ -173,11 +173,12 @@ def getColoring(G):
                 u = colour_list[0]
                 for v in colour_list[1:]:
                     if not identicalNeighbourhoods(u, v):
-                        # colour_list.remove(v)
                         changed = True
-                        changelist.append(v)
+                        colour_list.remove(v)
                         oldColor = v.getColornum()
-                        buffer.move(v, highestDegree + 1)
+                        buffer.put(highestDegree + 1 ,v)
+                        changelist.append(v)
+                        # buffer.move(v, highestDegree + 1)
                         v.setColornum(oldColor)
                 for v in changelist:
                     # buffer.move(v, highestDegree + 1)
@@ -222,7 +223,7 @@ G = loadgraph('bigtrees1.grl', FastGraph, True)[0][0]
 # G.addedge(G.V()[0], G.V()[3])
 beta = getColoring(G)
 # beta.move(G.V()[0], 6)
-print(colorref(G))
+# print(colorref(G))
 beta.print()
 print("Stable: " + str(beta.isStable()))
 print("Uniform: " + str(beta.isUniform()))
