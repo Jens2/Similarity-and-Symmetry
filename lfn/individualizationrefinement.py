@@ -103,8 +103,8 @@ def isBijection(dict):
     pass # TODO implement
 
 # startLoading = time()
-GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
-# graph1 = loadgraph('testGraphs\\threepaths640.gr', FastGraph)
+# GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+graph1 = loadgraph('testGraphs\\threepaths640.gr', FastGraph)
 # graph2 = loadgraph('testGraphs\\threepaths640.gr', FastGraph)
 # endLoading = time()
 # print("Done loading graph: " + str(endLoading - startLoading))
