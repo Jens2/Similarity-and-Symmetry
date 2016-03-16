@@ -37,7 +37,7 @@ def k_of(coloring):
             k += 1
     return k
 
-def isStable(coloring):
+def is_stable(coloring):
     for color_class in coloring.colors():
         v = coloring[color_class][0]
         for u in coloring[color_class][1:]:
@@ -45,10 +45,10 @@ def isStable(coloring):
                 return False
     return True
 
-def isUniform(coloring):
+def is_uniform(coloring):
     return k_of(coloring) == 1
 
-def isDiscrete(coloring):
+def is_discrete(coloring):
     for color_class in coloring.keys():
         if len(coloring[color_class]) > 1:
             return False
@@ -97,9 +97,6 @@ def coloring_refinement(coloring, highest_degree = -1):
             if changed:
                 highest_degree += 1
     return coloring
-
-
-
 
 "############################## Testing ##############################"
 
