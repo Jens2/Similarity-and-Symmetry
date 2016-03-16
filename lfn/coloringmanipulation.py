@@ -78,6 +78,28 @@ def get_coloring(G):
                 highest_degree += 1
     return alpha
 
+def coloring_refinement(coloring, highest_degree = -1):
+    if highest_degree == -1:
+        for key in coloring.keys():
+            if key > highest_degree:
+                highest_degree = key
+    changed = True
+    while changed:
+        changed = False
+        for colour_list in get_color_classes(coloring):
+            change_list = []
+            u = colour_list[0]
+            for v in colour_list[1:]:
+                if not checkNeighbourhood(u, v):
+                    changed = True
+                    change_list.append(v)
+            move_all(coloring, change_list, highest_degree + 1)
+            if changed:
+                highest_degree += 1
+    return coloring
+
+
+
 
 "############################## Testing ##############################"
 
@@ -90,5 +112,6 @@ H = disjointunion(GL[1], GL[3])
 alpha = get_coloring(G)
 beta = get_coloring(H)
 
-writeDOT(G, "test_get_coloring.dot")
+writeDOT(G, "test_get_coloring_alpha.dot")
+writeDOT(H, "test_get_coloring_beta.dot")
 
