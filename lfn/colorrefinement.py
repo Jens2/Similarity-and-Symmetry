@@ -1,7 +1,7 @@
 from util.graphutil import *
 from time import time
 
-def colorref(G):
+def colorref(G, onlyInit=False):
     #
     # Create a list which contains the colour number as the index with a list of vertices which all have the specified colour.
     # Also keep track of the highest known number
@@ -17,6 +17,8 @@ def colorref(G):
         else:
             newList = [v]
             mapofcolourlists[v.getColornum()] = newList
+    if onlyInit:
+        return mapofcolourlists, highestDeg, len(G.V())
     return colouring(mapofcolourlists, highestDeg), len(G.V())
 
 def colouring(mapofcolourlists, highestDeg=-1):
