@@ -44,26 +44,16 @@ def create_complete(n):
 
 #  Return a new graph that is the disjoint union of g and h
 def disjointunion(g, h):
-    result = g
-    hcopy = h
-    listofvertices = []
-    length = len(g.V())
-    for vertex in hcopy.V():
-        vertex._label += length
-        vertex.setGraph(result)
-        node = result.addvertex(vertex.getLabel())
-        listofvertices.append(node)
-    for edge in hcopy.E():
-        for node in listofvertices:
-            # print(type(node._label))
-            # print(str(edge.tail().getLabel()) + ", " + str(node.getLabel()))
-            if edge.tail().getLabel() is node.getLabel():
-                edge.setTail(node)
-            if edge.head().getLabel() is node.getLabel():
-                edge.setHead(node)
-        result.addedge(edge.tail(), edge.head())
-    # for node in result:
-    #     print(type(node.getLabel()))
+    result = FastGraph()
+    for edge in g.E():
+        v1 = result.addvertex(edge.tail().getLabel())
+        v2 = result.addvertex(edge.head().getLabel())
+        result.addedge(v1, v2)
+    offset = len(g.V())
+    for edge in h.E():
+        v1 = result.addvertex(edge.tail().getLabel() + offset)
+        v2 = result.addvertex(edge.head().getLabel() + offset)
+        result.addedge(v1, v2)
     return result
 
 

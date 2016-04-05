@@ -4,8 +4,8 @@ import random
 def create_complete(n):
     g = graph(n)
     V = g.V()
-    for i in range(0,n):
-        for j in range(i+1,n):
+    for i in range(0, n):
+        for j in range(i+1, n):
             g.addedge(V[i], V[j])
     return g
 
@@ -57,14 +57,14 @@ def create_tripartite_random(n, m, p):
 
 def create_planar(n):
     g = graph(n)
-    V = g.V()
+    vertices = g.V()
     if n > 1:
         # Make first edge
         remaining_vertices = []
-        remaining_vertices.extend(V)
-        outer_edges = [g.addedge(V[0], V[1])]
-        remaining_vertices.remove(V[0])
-        remaining_vertices.remove(V[1])
+        remaining_vertices.extend(vertices)
+        outer_edges = [g.addedge(vertices[0], vertices[1])]
+        remaining_vertices.remove(vertices[0])
+        remaining_vertices.remove(vertices[1])
         # Add shapes
         while len(remaining_vertices) > 0:
             # Pick shape to add
