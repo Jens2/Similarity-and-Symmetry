@@ -176,6 +176,7 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
     mapofcolourlists = dict()
     if highestDeg == -1:
         highestnotset = True
+        print("aha")
     else:
         highestnotset = False
     for v in graph.V():
@@ -191,6 +192,7 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
                 newList = [v]
                 mapofcolourlists[v.getColornum()] = newList
     maptowork = mapofcolourlists
+    print(highestDeg)
     highestDeg -= 1
     if len(D) >= 1 and len(I) >= 1:
         x = D[len(D) - 1]
@@ -200,7 +202,6 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
         # print(highestDeg)
         newList = [x, y]
         maptowork[highestDeg] = newList
-        print(highestDeg)
 
     W = pick_smallest_splitter(maptowork)
     if None in W:
@@ -262,7 +263,7 @@ def countIsomorphism(graph, highestDeg, numberOfVertices, D=[], I=[], oldClass=N
         dictionary[oldClass] = newList
     num = 0
     for key in dictionary.keys():
-        if len(dictionary[key]) >= 4:
+        if len(dictionary[key]) >= 8:
             colorclass = dictionary[key]
             for x in colorclass:
                 if x.getLabel() < numberOfVertices//2:
@@ -354,7 +355,7 @@ sys.setrecursionlimit(5000)
 start = time()
 # GL, settings = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
 # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
-GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
+GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
 GL1, setting = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
 graph1 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
 graph2 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
@@ -363,7 +364,7 @@ graph2 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
 print("Done loading: " + str(time() - start))
 # union2 = disjointunion(graph3, graph4)
 start = time()
-union = disjointunion(GL[0],GL[3])
+union = disjointunion(GL[2],GL[6])
 # union = disjointunion(graph1, graph2)
 print("Disjoint union: " + str(time() - start))
 start = time()
