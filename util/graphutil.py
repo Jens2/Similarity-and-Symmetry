@@ -2,6 +2,7 @@ import copy
 
 from graphImplementations.basicgraphs import *
 from util.graphIO import *
+from graphImplementations.fastgraphs import *
 
 
 # Creates a graph with n vertices, with a path of length n − 1
@@ -55,9 +56,10 @@ def disjointunion(g, h):
     for edge in hcopy.E():
         for node in listofvertices:
             # print(type(node._label))
+            # print(str(edge.tail().getLabel()) + ", " + str(node.getLabel()))
             if edge.tail().getLabel() is node.getLabel():
                 edge.setTail(node)
-            elif edge.head().getLabel() is node.getLabel():
+            if edge.head().getLabel() is node.getLabel():
                 edge.setHead(node)
         result.addedge(edge.tail(), edge.head())
     # for node in result:
@@ -66,9 +68,9 @@ def disjointunion(g, h):
 
 
 # print("\nDisjointUnion")
-# g = graph(7)
+# g = create_complete(4)
 # h = create_complete(5)
-# print(disjoint_union(g, h))
+# print(disjointunion(g, h))
 
 
 # Loads a graph from a text file, computes the complement, and then writes this to a new text file
