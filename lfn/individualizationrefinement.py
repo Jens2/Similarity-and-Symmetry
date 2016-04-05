@@ -114,14 +114,12 @@ def countIsomorphism(numberOfVertices, colourmap):
                             dictionary2[highestDeg + 1] = newColourClass
 
                             dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
-                            if isBijection(dictionary2):
-                                num += 1
-                            else:
-                                oldColourClass = dictionary2[key]
-                                oldColourClass.append(secondNode)
-                                dictionary2[key] = oldColourClass
-                                secondNode.setColornum(key)
-                                newColourClass.remove(secondNode)
+                            num += countIsomorphism(numberOfVertices,dictionary2)
+                            oldColourClass = dictionary2[key]
+                            oldColourClass.append(secondNode)
+                            dictionary2[key] = oldColourClass
+                            secondNode.setColornum(key)
+                            newColourClass.remove(secondNode)
                     x.setColornum(key)
                     oldColourClass1 = dictionary[key]
                     oldColourClass1.append(x)
@@ -347,8 +345,8 @@ start = time()
 # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
 # GL1, setting = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
-graph1 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
-graph2 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
+graph1 = loadgraph("testGraphs\\threepaths1280.gr", FastGraph)
+graph2 = loadgraph("testGraphs\\threepaths1280.gr", FastGraph)
 # graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
 # graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
 print("Done loading: " + str(time() - start))
