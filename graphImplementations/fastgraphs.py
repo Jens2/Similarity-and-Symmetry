@@ -38,6 +38,9 @@ class FastVertex(vertex):
 
 class FastGraph(graph):
 
+    def addObjVertex(self, node):
+        self._V.append(node)
+
     def addvertex(self, label=-1):
         """
         Add a vertex to the graph.

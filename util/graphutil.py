@@ -29,10 +29,11 @@ def create_cycle(n):
 
 # Creates a complete graph with n vertices
 def create_complete(n):
-    g = graph(n)
+    g = FastGraph(n)
     for i in g.V():
         for j in g.V():
-            g.addedge(i, j)
+            if i is not j:
+                g.addedge(i, j)
     return g
 
 
@@ -87,14 +88,15 @@ def complement(src, dst):
 
 # Computes the complement of a graph
 def complement(g):
-    result = graph()
+    result = FastGraph()
     for i in range(len(g.V())):
         result.addvertex()
-    for VERTEX in g.V():
+    # for node in g.V():
+    #     result.addObjVertex(node)
+    for node in g.V():
         for neighbour in g.V():
-            if not VERTEX.adj(neighbour):
-                result.addedge(result.__getitem__(VERTEX.label), result.__getitem__(neighbour.label))
-    savegraph(result, 'complement.gr')
+            if not node.adj(neighbour):
+                result.addedge(result.__getitem__(node.getLabel()), result.__getitem__(neighbour.getLabel()))
     return result
 
 

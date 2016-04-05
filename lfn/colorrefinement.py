@@ -80,15 +80,15 @@ def checkNeighbourhood(u, v):
 Voor het testen van een graph lijst en schrijven naar dot files
 """
 
-GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
-graphUnion = disjointunion(GL[1], GL[3])
-colorref(graphUnion)
-writeDOT(graphUnion, "aaa.dot")
-GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
-graphUnion2 = disjointunion(GL[1], GL[3])
-print(colorref(graphUnion))
-# getColoring2(graphUnion2).print()
-writeDOT(graphUnion2, "aab.dot")
+# GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+# graphUnion = disjointunion(GL[1], GL[3])
+# colorref(graphUnion)
+# writeDOT(graphUnion, "aaa.dot")
+# GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+# graphUnion2 = disjointunion(GL[1], GL[3])
+# print(colorref(graphUnion))
+# # getColoring2(graphUnion2).print()
+# writeDOT(graphUnion2, "aab.dot")
 
 
 # i = 0

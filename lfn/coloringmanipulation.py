@@ -76,7 +76,7 @@ def get_coloring(G):
             move_all(alpha, change_list, highest_degree + 1)
             if changed:
                 highest_degree += 1
-    return alpha
+    return alpha, len(G.V())
 
 def coloring_refinement(coloring, highest_degree = -1):
     if highest_degree == -1:
@@ -104,7 +104,7 @@ from util.graphutil import *
 
 
 GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
-G = loadgraph("bigtrees1.grl", FastGraph, True)[0][0]
+G = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)[0][0]
 H = disjointunion(GL[1], GL[3])
 alpha = get_coloring(G)
 beta = get_coloring(H)
