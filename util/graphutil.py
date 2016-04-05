@@ -44,16 +44,12 @@ def create_complete(n):
 
 #  Return a new graph that is the disjoint union of g and h
 def disjointunion(g, h):
-    result = FastGraph()
+    result = FastGraph(len(g.V()) + len(h.V()))
     for edge in g.E():
-        v1 = result.addvertex(edge.tail().getLabel())
-        v2 = result.addvertex(edge.head().getLabel())
-        result.addedge(v1, v2)
+        result.addedge(result.V()[edge.tail().getLabel()], result.V()[edge.head().getLabel()])
     offset = len(g.V())
     for edge in h.E():
-        v1 = result.addvertex(edge.tail().getLabel() + offset)
-        v2 = result.addvertex(edge.head().getLabel() + offset)
-        result.addedge(v1, v2)
+        result.addedge(result.V()[edge.tail().getLabel() + offset], result.V()[edge.head().getLabel() + offset])
     return result
 
 
