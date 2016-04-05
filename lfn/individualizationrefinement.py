@@ -78,65 +78,47 @@ def isIsomorphism(numberOfVertices, colourmap):
 
 
 def countIsomorphism(numberOfVertices, colourmap):
-    if not isBalanced(colourmap, numberOfVertices):
+    if not isBalanced(dict, numberOfVertices):
         return 0
-    if isBijection(colourmap):
+    if isBijection(dict):
         return 1
+    print(dict)
     num = 0
     highestDeg = -1
-    for key in colourmap.keys():
+    for key in dict.keys():
         if key > highestDeg:
             highestDeg = key
-    for key in colourmap.keys():
-        if len(colourmap.get(key)) >= 4:
-            colorclass = colourmap.get(key)
+
+    for key in dict.keys():
+        if len(dict.get(key)) >= 4:
+            colorclass = dict.get(key)
             for node in colorclass:
-                if node.getLabel() < numberOfVertices//2:
+                for y in colorclass
+
+
+                if node.getLabel() < numberOfVertices//2 and node not in nodeList:
                     x = node
-                    dictionary = deepCopyMap(colourmap)
-
-                    dictionary.get(key).remove(x)
-
-                    x.setColornum(highestDeg + 1)
-
-                    newColourClass = [x]
-                    dictionary[highestDeg + 1] = newColourClass
-
+                    nodeList.append(x)
+                    dictionary = deepCopyMap(dict)
                     for secondNode in colorclass:
                         if secondNode.getLabel() >= numberOfVertices//2:
+                            # print(x.getLabel())
                             dictionary2 = deepCopyMap(dictionary)
-
                             dictionary2.get(key).remove(secondNode)
+                            dictionary2.get(key).remove(x)
 
+                            x.setColornum(highestDeg + 1)
                             secondNode.setColornum(highestDeg + 1)
-
-                            newColourClass.append(secondNode)
+                            newColourClass = [x, secondNode]
                             dictionary2[highestDeg + 1] = newColourClass
+                            highestDeg += 1
+                            dictionary2 = coloring_refinement(dictionary2, highestDeg)
 
-                            dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
-                            num += countIsomorphism(numberOfVertices,dictionary2)
-                            oldColourClass = dictionary2[key]
-                            oldColourClass.append(secondNode)
-                            dictionary2[key] = oldColourClass
-                            secondNode.setColornum(key)
-                            newColourClass.remove(secondNode)
-                    x.setColornum(key)
-                    oldColourClass1 = dictionary[key]
-                    oldColourClass1.append(x)
-                    dictionary[key] = oldColourClass1
+                            num += countIsomorphism(numberOfVertices, dictionary2, nodeList)
     return num
 
 
 
-
-
-
-
-
-
-
-
-    # TODO implement
 
 def isBalanced(dict, numberOfVertices):
     counter = 0
@@ -155,8 +137,6 @@ def isBijection(dict):
             return False
     return True
 
-
-    pass # TODO implement
 
 # # GL, options = loadgraph('testGraphs\\colorref_smallexample_4_16.grl', FastGraph, True)
 # start = time()
@@ -345,8 +325,8 @@ start = time()
 # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
 # GL1, setting = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
-graph1 = loadgraph("testGraphs\\threepaths1280.gr", FastGraph)
-graph2 = loadgraph("testGraphs\\threepaths1280.gr", FastGraph)
+graph1 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
+graph2 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
 # graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
 # graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
 print("Done loading: " + str(time() - start))
