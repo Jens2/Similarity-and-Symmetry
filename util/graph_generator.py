@@ -1,6 +1,7 @@
 from util.graphutil import *
 import random
 
+
 def create_complete(n):
     g = graph(n)
     V = g.V()
