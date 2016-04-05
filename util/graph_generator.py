@@ -57,10 +57,10 @@ def create_tripartite_random(n, m, p):
 
 def create_planar(n):
     g = graph(n)
-
-
-print(create_tripartite_random(2, 3, 2))
-
-
-print(create_bipartite_complete(4, 4))
-print(create_complete(4))
+#
+#
+# print(create_tripartite_random(2, 3, 2))
+#
+#
+# print(create_bipartite_complete(4, 4))
+# print(create_complete(4))
