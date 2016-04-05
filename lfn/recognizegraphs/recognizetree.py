@@ -20,10 +20,10 @@ def dfs(graph, start, visited = [], exploredEdges = []):
             dfs(graph, next, visited, exploredEdges)
     return visited
 
-graph = loadgraph("C:/Users/GIJS-PC/PycharmProjects/Similarity-and-Symmetry/lfn/testGraphs/bigtrees2.grl", FastGraph)
-# graph.addedge(graph.V()[4], graph.V()[6])
-# graph.addedge(graph.V()[6], graph.V()[7])
-# graph.addedge(graph.V()[7], graph.V()[4])
-writeDOT(graph, "deze")
-
-print(istree(graph))
+# graph = loadgraph("C:/Users/GIJS-PC/PycharmProjects/Similarity-and-Symmetry/lfn/testGraphs/bigtrees2.grl", FastGraph)
+# # graph.addedge(graph.V()[4], graph.V()[6])
+# # graph.addedge(graph.V()[6], graph.V()[7])
+# # graph.addedge(graph.V()[7], graph.V()[4])
+# writeDOT(graph, "deze")
+#
+# print(istree(graph))
