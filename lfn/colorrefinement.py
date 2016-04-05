@@ -62,7 +62,7 @@ def colouring(mapofcolourlists, highestDeg=-1):
 def deepCopyMap(mapc):
     result = dict()
     for key in mapc.keys():
-        result[key] = mapc.get(key)
+        result[key] = mapc[key]
     return result
 
 def checkNeighbourhood(u, v):

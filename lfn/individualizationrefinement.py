@@ -1,7 +1,7 @@
 from lfn.colorrefinement import *
 from lfn.coloringmanipulation import *
 
-def individualizationref(dict, numberOfVertices, two=False):
+def individualizationref(dict, numberOfVertices, count=False):
     # arrays = dict.values()
     # result = []
     # for array in arrays:
@@ -20,84 +20,112 @@ def individualizationref(dict, numberOfVertices, two=False):
     # print(D)
     # print(I)
     # return D, I
-    if not two:
+    if count:
         print(countIsomorphism(numberOfVertices, dict))
     else:
-        print(isisomorphism(numberOfVertices, dict))
+        print(isIsomorphism(numberOfVertices, dict))
 
-def countIsomorphism(numberOfVertices, dict, nodeList=-1):
-    if nodeList == -1:
-        nodeList = []
-    if not isBalanced(dict, numberOfVertices):
+def isIsomorphism(numberOfVertices, colourmap):
+    if not isBalanced(colourmap, numberOfVertices):
         return 0
-    if isBijection(dict):
+    if isBijection(colourmap):
         return 1
     num = 0
     highestDeg = -1
-    for key in dict.keys():
+    for key in colourmap.keys():
         if key > highestDeg:
             highestDeg = key
-    for key in dict.keys():
-        if len(dict.get(key)) >= 4:
-            colorclass = dict.get(key)
+    for key in colourmap.keys():
+        if len(colourmap.get(key)) >= 4:
+            colorclass = colourmap.get(key)
             for node in colorclass:
-                if node.getLabel() < numberOfVertices//2 and node not in nodeList:
+                if node.getLabel() < numberOfVertices//2:
                     x = node
-                    nodeList.append(x)
-                    dictionary = deepCopyMap(dict)
+                    dictionary = deepCopyMap(colourmap)
+
+                    dictionary.get(key).remove(x)
+
+                    x.setColornum(highestDeg + 1)
+
+                    newColourClass = [x]
+                    dictionary[highestDeg + 1] = newColourClass
+
                     for secondNode in colorclass:
                         if secondNode.getLabel() >= numberOfVertices//2:
-                            # print(x.getLabel())
                             dictionary2 = deepCopyMap(dictionary)
-                            dictionary2.get(key).remove(secondNode)
-                            dictionary2.get(key).remove(x)
 
-                            x.setColornum(highestDeg + 1)
+                            dictionary2.get(key).remove(secondNode)
+
                             secondNode.setColornum(highestDeg + 1)
-                            newColourClass = [x, secondNode]
+
+                            newColourClass.append(secondNode)
                             dictionary2[highestDeg + 1] = newColourClass
-                            highestDeg += 1
-                            # dictionary2 = colouring(dictionary2, highestDeg)
-                            dictionary2 = minimizationpartitioning(dictionary2, highestDeg)
-                            countIsomorphism(numberOfVertices, dictionary2, nodeList)
+
+                            dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
+                            if isBijection(dictionary2):
+                                return 1
+                            else:
+                                oldColourClass = dictionary2[key]
+                                oldColourClass.append(secondNode)
+                                dictionary2[key] = oldColourClass
+                                secondNode.setColornum(key)
+                                newColourClass.remove(secondNode)
+                    x.setColornum(key)
+                    oldColourClass1 = dictionary[key]
+                    oldColourClass1.append(x)
+                    dictionary[key] = oldColourClass1
     return num
 
-def isisomorphism(numberOfVertices, dict, nodeList=-1):
-    if nodeList == -1:
-        nodeList = []
-    if not isBalanced(dict, numberOfVertices):
+
+def countIsomorphism(numberOfVertices, colourmap):
+    if not isBalanced(colourmap, numberOfVertices):
         return 0
-    if isBijection(dict):
+    if isBijection(colourmap):
         return 1
     num = 0
     highestDeg = -1
-    for key in dict.keys():
+    for key in colourmap.keys():
         if key > highestDeg:
             highestDeg = key
-
-    for key in dict.keys():
-        if len(dict.get(key)) >= 4:
-            colorclass = dict.get(key)
+    for key in colourmap.keys():
+        if len(colourmap.get(key)) >= 4:
+            colorclass = colourmap.get(key)
             for node in colorclass:
-                if node.getLabel() < numberOfVertices//2 and node not in nodeList:
+                if node.getLabel() < numberOfVertices//2:
                     x = node
-                    nodeList.append(x)
-                    dictionary = deepCopyMap(dict)
+                    dictionary = deepCopyMap(colourmap)
+
+                    dictionary.get(key).remove(x)
+
+                    x.setColornum(highestDeg + 1)
+
+                    newColourClass = [x]
+                    dictionary[highestDeg + 1] = newColourClass
+
                     for secondNode in colorclass:
                         if secondNode.getLabel() >= numberOfVertices//2:
-                            # print(x.getLabel())
                             dictionary2 = deepCopyMap(dictionary)
+
                             dictionary2.get(key).remove(secondNode)
-                            dictionary2.get(key).remove(x)
 
-                            x.setColornum(highestDeg + 1)
                             secondNode.setColornum(highestDeg + 1)
-                            newColourClass = [x, secondNode]
-                            dictionary2[highestDeg + 1] = newColourClass
-                            highestDeg += 1
-                            dictionary2 = coloring_refinement(dictionary2, highestDeg)
 
-                            num += countIsomorphism(numberOfVertices, dictionary2, nodeList)
+                            newColourClass.append(secondNode)
+                            dictionary2[highestDeg + 1] = newColourClass
+
+                            dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
+                            if isBijection(dictionary2):
+                                num += 1
+                            else:
+                                oldColourClass = dictionary2[key]
+                                oldColourClass.append(secondNode)
+                                dictionary2[key] = oldColourClass
+                                secondNode.setColornum(key)
+                                newColourClass.remove(secondNode)
+                    x.setColornum(key)
+                    oldColourClass1 = dictionary[key]
+                    oldColourClass1.append(x)
+                    dictionary[key] = oldColourClass1
     return num
 
 
@@ -254,7 +282,7 @@ def pick_smallest_splitter(colouringmap):
     list_of_P = []
     for colour_class in colouringmap.values():
         list_of_P.append(colour_class)
-    # heapSort(list_of_P)
+    heapSort(list_of_P)
     for i in range(len(list_of_P) - 1):
         if len(count_and_sort_neighbours(colouringmap, list_of_P[i])) > 0:
             return list_of_P[i]
@@ -319,24 +347,24 @@ start = time()
 # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
 # GL1, setting = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
-graph1 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-graph2 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
+graph1 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
+graph2 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
+# graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
+# graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
 print("Done loading: " + str(time() - start))
 # union2 = disjointunion(graph3, graph4)
 start = time()
 union = disjointunion(graph1, graph2)
 print("Disjoint union: " + str(time() - start))
 start = time()
-colored,highestDeg, numberofV = colorref(union, True)
-print(time() - start)
+colored, highestDeg, numberofV = colorref(union, True)
+print("Ref: " + str(time() - start))
 start = time()
 individualizationref(colored, numberofV)
 # print("First ref: " + str(time() - start))
 # start = time()
 # print(countIsomorphism(numberofV, minimizationpartitioning(colored,highestDeg)))
-print("Time: " + str(time() - start))
+print("Time for partitioning etc.: " + str(time() - start))
 # start = time()
 # ref, a = colorref(union2)
 # individualizationref(ref, a, True)
