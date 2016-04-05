@@ -1,29 +1,12 @@
 from lfn.colorrefinement import *
 from lfn.coloringmanipulation import *
 
-def individualizationref(dict, numberOfVertices, count=False):
-    # arrays = dict.values()
-    # result = []
-    # for array in arrays:
-    #     for element in array:
-    #         result.append(element)
-    # length = len(result)
-    # D = []
-    # I = []
-    # for key in dict.keys():
-    #     vertices = dict.get(key)
-    #     for vertex in vertices:
-    #         if vertex.getLabel() < length//2:
-    #             D.append(vertex)
-    #         else:
-    #             I.append(vertex)
-    # print(D)
-    # print(I)
-    # return D, I
+def individualizationref(graph, count=False):
+    colourmap, highestDeg, numberOfVertices = colorref(graph, True)
     if count:
-        print(countIsomorphism(numberOfVertices, dict))
+        print(countIsomorphism(graph, colourmap, highestDeg, numberOfVertices))
     else:
-        print(isIsomorphism(numberOfVertices, dict))
+        print(isIsomorphism(numberOfVertices, colourmap))
 
 def isIsomorphism(numberOfVertices, colourmap):
     if not isBalanced(colourmap, numberOfVertices):
@@ -42,6 +25,7 @@ def isIsomorphism(numberOfVertices, colourmap):
                 if node.getLabel() < numberOfVertices//2:
                     x = node
                     dictionary = deepCopyMap(colourmap)
+                    nodeList = []
 
                     dictionary.get(key).remove(x)
 
@@ -51,7 +35,8 @@ def isIsomorphism(numberOfVertices, colourmap):
                     dictionary[highestDeg + 1] = newColourClass
 
                     for secondNode in colorclass:
-                        if secondNode.getLabel() >= numberOfVertices//2:
+                        if secondNode.getLabel() >= numberOfVertices//2 and secondNode not in nodeList:
+                            nodeList.append(secondNode)
                             dictionary2 = deepCopyMap(dictionary)
 
                             dictionary2.get(key).remove(secondNode)
@@ -64,6 +49,11 @@ def isIsomorphism(numberOfVertices, colourmap):
                             dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
                             if isBijection(dictionary2):
                                 return 1
+                            elif not isBalanced(dictionary2, numberOfVertices):
+                                oldColourClass = dictionary2[key]
+                                oldColourClass.append(secondNode)
+                                dictionary2[key] = oldColourClass
+                                secondNode.setColornum(key)
                             else:
                                 oldColourClass = dictionary2[key]
                                 oldColourClass.append(secondNode)
@@ -79,6 +69,8 @@ def isIsomorphism(numberOfVertices, colourmap):
 def isBalanced(dict, numberOfVertices):
     counter = 0
     for key in dict.keys():
+        if len(dict.get(key)) % 2 != 0:
+            return False
         for vertex in dict.get(key):
             if vertex.getLabel() < numberOfVertices//2:
                 counter+=1
@@ -178,72 +170,104 @@ def isBijection(dict):
 # 13:               Add((min(P', P′′), b), W)
 
 
-def minimizationpartitioning(colouringmap, highestDeg = -1):
+def minimizationpartitioning(graph, colouringmap, D, I):
 
-    if highestDeg == -1:
-        for key in colouringmap.keys():
-            if key > highestDeg:
-                highestDeg = key
+    mapofcolourlists = dict()
+    highestDeg = - 1
+    for v in graph.V():
+        if highestDeg < v.getColornum():
+            highestDeg = v.getColornum()
+        if mapofcolourlists.get(v.getColornum()) is not None:
+            oldList = mapofcolourlists.get(v.getColornum())
+            oldList.append(v)
+            mapofcolourlists[v.getColornum()] = oldList
+        else:
+            newList = [v]
+            mapofcolourlists[v.getColornum()] = newList
+    maptowork = colouringmap
+    if D != [] and I != []:
+        x = D[0]
+        y = I[0]
+        x.setColornum(highestDeg)
+        y.setColornum(highestDeg)
+        newList = [x, y]
+        maptowork[highestDeg] = newList
 
-    W = [pick_smallest_splitter(colouringmap)]
+    W = [pick_smallest_splitter(maptowork)]
     if None in W:
         W = []
     while len(W) > 0:
-        # print(colouringmap)
         A = W.pop()
-        classes_to_split = count_and_sort_neighbours(colouringmap, A)
+        classes_to_split = count_and_sort_neighbours(maptowork, A)
         for colour_class in classes_to_split.keys():
             wcontains = False
             first = True
             new_minimal_entry = []
             nodecount = classes_to_split[colour_class]
-            if colouringmap[colour_class] in W:
-                W.remove(colouringmap[colour_class])
+            if maptowork[colour_class] in W:
+                W.remove(maptowork[colour_class])
                 wcontains = True
             for key in nodecount.keys():
                 if len(new_minimal_entry) == 0 or (len(new_minimal_entry) != 0 and len(nodecount[key]) < len(new_minimal_entry)):
                     new_minimal_entry = nodecount[key]
                 if not first:
                     highestDeg += 1
-                    colouringmap[highestDeg] = nodecount[key]
+                    maptowork[highestDeg] = nodecount[key]
+                    for node in nodecount[key]:
+                        node.setColornum(highestDeg)
                     if wcontains:
                         W.append(nodecount[key])
                     for node in nodecount[key]:
-                        colouringmap[colour_class].remove(node)
+                        maptowork[colour_class].remove(node)
                 else:
                     if wcontains:
                         W.append(nodecount[key])
                     first = False
             if not wcontains:
                 W.append(new_minimal_entry)
-    return colouringmap
+    return maptowork, D, I
 
-def countIsomorphism(dictionary, highestDeg, numberOfVertices):
-    dict = minimizationpartitioning(dictionary, highestDeg)
+def maptoLists(colourmap):
+    return 0
 
-    if not isBalanced(dict, numberOfVertices):
+def liststoMap(D, I):
+    return 0
+
+def countIsomorphism(graph, colourmap, highestDeg, numberOfVertices, D=[], I=[], oldClass=None):
+    dictionary, D, I = minimizationpartitioning(graph, colourmap, D, I)
+    if not isBalanced(dictionary, numberOfVertices):
         return 0
-    if isBijection(dict):
+    if isBijection(dictionary):
+        print("jeej")
         return 1
-    colorclass = None
-    for key in dict.keys():
-        if len(dict.get(key)) >= 4:
-            colorclass = dict.get(key)
-            break
-    x = 0
-    for element in colorclass:
-        x = element
-        break
+    if D != [] and I != [] and oldClass is not None:
+        newList = dictionary[oldClass]
+        x = D[0]
+        y = I[0]
+        x.setColornum(oldClass)
+        y.setColornum(oldClass)
+        newList.append(x)
+        newList.append(y)
+        D.remove(x)
+        I.remove(y)
+        dictionary[oldClass] = newList
     num = 0
-    for y in colorclass:
-        dDict = deepcopy(dict)
-        newColourClass = [x, y]
-        dDict[highestDeg + 1] = newColourClass
-        highestDeg += 1
-        num += countIsomorphism(dDict, highestDeg)
+    for key in dictionary.keys():
+        if len(dictionary[key]) >= 4:
+            colorclass = dictionary[key]
+            x = colorclass[0]
+            if x.getLabel() < numberOfVertices//2:
+                D.append(x)
+                dictionary2 = deepCopyMap(dictionary)
+                dictionary2[key].remove(x)
+                x.setColornum(highestDeg + 1)
+                for y in colorclass:
+                    if y.getLabel() >= numberOfVertices//2:
+                        I.append(y)
+                        dictionary2[key].remove(y)
+                        y.setColornum(highestDeg + 1)
+                        num += countIsomorphism(graph, dictionary2, highestDeg + 1, numberOfVertices, D, I, key)
     return num
-
-
 
 def pick_smallest_splitter(colouringmap):
     list_of_P = []
@@ -283,6 +307,7 @@ def heapify(E,i, heapsize):
 def count_and_sort_neighbours(colouring, colour_class):
     no_of_neighbours = dict()
     list_of_colours = []
+    # printLabels(colouring)
     for node in colour_class:
         for neighbour in node.nbs():
             if neighbour in no_of_neighbours:
@@ -308,35 +333,39 @@ def count_and_sort_neighbours(colouring, colour_class):
         if len(class_with_nodecount) > 1:
             classes_to_split[colour] = class_with_nodecount
     return classes_to_split
-#
-# start = time()
-# # GL, settings = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
-# # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
-# # GL, settings = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
-# # GL1, setting = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
-# graph1 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
-# graph2 = loadgraph("testGraphs\\threepaths2560.gr", FastGraph)
-# # graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-# # graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-# print("Done loading: " + str(time() - start))
-# # union2 = disjointunion(graph3, graph4)
-# start = time()
-# union = disjointunion(graph1, graph2)
-# print("Disjoint union: " + str(time() - start))
-# start = time()
-# colored, highestDeg, numberofV = colorref(union, True)
-# print("Ref: " + str(time() - start))
-# start = time()
-# individualizationref(colored, numberofV)
-# # print("First ref: " + str(time() - start))
-# # start = time()
-# # print(countIsomorphism(numberofV, minimizationpartitioning(colored,highestDeg)))
-# print("Time for partitioning etc.: " + str(time() - start))
-# # start = time()
-# # ref, a = colorref(union2)
-# # individualizationref(ref, a, True)
-# # print("Time: " + str(time() - start))
 
-graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
-map, high, number = colorref(graph3, True)
-print(countIsomorphism(map, high, number))
+def printLabels(cmap):
+    for colour in cmap.keys():
+        print("***************************************************************************************")
+        print("Kleur: " + str(colour))
+        for node in cmap[colour]:
+            print("Label: " + str(node.getColornum()))
+
+start = time()
+# GL, settings = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
+# GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
+GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
+GL1, setting = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
+graph1 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
+graph2 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
+# graph3 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
+# graph4 = loadgraph("testGraphs\\threepaths320.gr", FastGraph)
+print("Done loading: " + str(time() - start))
+# union2 = disjointunion(graph3, graph4)
+start = time()
+union = disjointunion(GL[0],GL[2])
+# union = disjointunion(graph1, graph2)
+print("Disjoint union: " + str(time() - start))
+start = time()
+colored, highestDeg, numberofV = colorref(union, True)
+print("Ref: " + str(time() - start))
+start = time()
+individualizationref(union, True)
+# print("First ref: " + str(time() - start))
+# start = time()
+# print(countIsomorphism(numberofV, minimizationpartitioning(colored,highestDeg)))
+print("Time for partitioning etc.: " + str(time() - start))
+# start = time()
+# ref, a = colorref(union2)
+# individualizationref(ref, a, True)
+# print("Time: " + str(time() - start))*
