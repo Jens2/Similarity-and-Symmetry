@@ -1,5 +1,6 @@
 from lfn.coloringmanipulation import *
 
+
 # def equal_coloring(c1, c2):
 #     if len(c1) is not len(c2):
 #         return False
@@ -35,7 +36,8 @@ def minimizationpartitioning(colouringmap, highestDeg):
                 W.remove(colouringmap[colour_class])
                 wcontains = True
             for key in nodecount.keys():
-                if len(new_minimal_entry) == 0 or (len(new_minimal_entry) != 0 and len(nodecount[key]) < len(new_minimal_entry)):
+                if len(new_minimal_entry) == 0 or (
+                        len(new_minimal_entry) != 0 and len(nodecount[key]) < len(new_minimal_entry)):
                     new_minimal_entry = nodecount[key]
                 if not first:
                     highestDeg += 1
@@ -52,6 +54,7 @@ def minimizationpartitioning(colouringmap, highestDeg):
                 W.append(new_minimal_entry)
     return colouringmap
 
+
 def pick_smallest_splitter(colouringmap):
     list_of_P = []
     for colour_class in colouringmap.values():
@@ -61,36 +64,38 @@ def pick_smallest_splitter(colouringmap):
         if len(count_and_sort_neighbours(colouringmap, list_of_P[i])) > 0:
             return list_of_P[i]
 
+
 def mergeSort(alist):
-    if len(alist)>1:
-        mid = len(alist)//2
+    if len(alist) > 1:
+        mid = len(alist) // 2
         lefthalf = alist[:mid]
         righthalf = alist[mid:]
 
         mergeSort(lefthalf)
         mergeSort(righthalf)
 
-        i=0
-        j=0
-        k=0
+        i = 0
+        j = 0
+        k = 0
         while i < len(lefthalf) and j < len(righthalf):
             if len(lefthalf[i]) < len(righthalf[j]):
-                alist[k]=lefthalf[i]
-                i=i+1
+                alist[k] = lefthalf[i]
+                i = i + 1
             else:
-                alist[k]=righthalf[j]
-                j=j+1
-            k=k+1
+                alist[k] = righthalf[j]
+                j = j + 1
+            k = k + 1
 
         while i < len(lefthalf):
-            alist[k]=lefthalf[i]
-            i=i+1
-            k=k+1
+            alist[k] = lefthalf[i]
+            i = i + 1
+            k = k + 1
 
         while j < len(righthalf):
-            alist[k]=righthalf[j]
-            j=j+1
-            k=k+1
+            alist[k] = righthalf[j]
+            j = j + 1
+            k = k + 1
+
 
 def count_and_sort_neighbours(colouring, colour_class):
     no_of_neighbours = dict()
@@ -120,6 +125,7 @@ def count_and_sort_neighbours(colouring, colour_class):
         if len(class_with_nodecount) > 1:
             classes_to_split[colour] = class_with_nodecount
     return classes_to_split
+
 
 def deepCopyMap(mapc):
     result = dict()
@@ -162,7 +168,7 @@ def beta_coloring(coloring, highest_degree=-1):
                 u = color_class[0]
                 changelist = []
                 for v in color_class[1:]:
-                    if not checkNeighbourhood(u,v):
+                    if not checkNeighbourhood(u, v):
                         changed = True
                         color_class.remove(v)
                         changelist.append(v)
@@ -185,7 +191,7 @@ def is_balanced(coloring, number_of_vertices):
     for key in coloring.keys():
         counter = 0
         for v in coloring.get(key):
-            if v.getLabel() < number_of_vertices//2:
+            if v.getLabel() < number_of_vertices // 2:
                 counter += 1
             else:
                 counter -= 1
@@ -248,12 +254,12 @@ def count_isomorphism(g, D, I):
             break
     x = None
     for node in color_class:
-        if node.getLabel() < len(g.V())//2:
+        if node.getLabel() < len(g.V()) // 2:
             x = node
     num = 0
     C_intersect_H = []
     for v in color_class:
-        if v.getLabel() >= len(g.V())//2:
+        if v.getLabel() >= len(g.V()) // 2:
             C_intersect_H.append(v)
     D_x = []
     D_x.extend(D)
@@ -272,19 +278,73 @@ def count_isomorphism(g, D, I):
     return num
 
 
-# GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
-GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
-# GL, settings = loadgraph("testGraphs\\products72.grl", FastGraph, True)
+def isIsomorphism(g, D=[], I=[]):
+    coloring = alpha_coloring(g, D, I)
+    highest_degree = -1
+    for key in coloring.keys():
+        if key > highest_degree:
+            highest_degree = key
+    # coloring = beta_coloring(coloring, highest_degree)
+    coloring = minimizationpartitioning(coloring, highest_degree)
 
-graph1 = GL[1]
-graph2 = GL[4]
+    for key in coloring.keys():
+        color_class = coloring[key]
+        for vertex in color_class:
+            vertex.setColornum(key)
+
+    if not is_balanced(coloring, len(g.V())):
+        return False
+    if defines_bijection(coloring):
+        return True
+    color_class = None
+    for key in coloring.keys():
+        if len(coloring.get(key)) >= 4:
+            color_class = coloring.get(key)
+            break
+    x = None
+    for node in color_class:
+        if node.getLabel() < len(g.V()) // 2:
+            x = node
+    iso_found = False
+    C_intersect_H = []
+    for v in color_class:
+        if v.getLabel() >= len(g.V()) // 2:
+            C_intersect_H.append(v)
+    D_x = []
+    D_x.extend(D)
+    D_x.append(x)
+    for y in C_intersect_H:
+        I_y = []
+        I_y.extend(I)
+        I_y.append(y)
+        # for key in coloring.keys():
+        #     color_class = coloring[key]
+        #     for vertex in color_class:
+        #         vertex.setColornum(key)
+        # iso_found = iso_found or count_isomorphism(g, D_x, I_y)
+        iso_found = count_isomorphism(g, D_x, I_y) > 0
+        if iso_found:
+            return True
+    return iso_found
+
+
+# GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
+# GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
+# GL, settings = loadgraph("testGraphs\\products72.grl", FastGraph, True)
+GL, settings = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
+# GL, settings = loadgraph("testGraphs\\cubes5.grl", FastGraph, True)
+
+graph1 = GL[0]
+graph2 = GL[2]
 
 # graph1 = loadgraph("testGraphs\\threepaths5.gr", FastGraph)
 # graph2 = loadgraph("testGraphs\\threepaths160.gr", FastGraph)
 
 G = disjointunion(graph1, graph2)
 
-print(count_isomorphism(G, [], []))
+# print(count_isomorphism(G, [], []))
+
+print(isIsomorphism(G))
 
 
 # def isIsomorphism(numberOfVertices, colourmap):
