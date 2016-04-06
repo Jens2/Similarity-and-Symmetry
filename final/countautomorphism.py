@@ -10,7 +10,7 @@ def count_automorphism(g):
 
 # ----- MAIN -----
 
-# GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
-# G = GL[0]
-# print(count_automorphism(G))
+GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
+G = GL[0]
+print(count_automorphism(G))
 

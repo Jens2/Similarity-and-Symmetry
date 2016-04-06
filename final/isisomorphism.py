@@ -5,7 +5,7 @@ from final.fastgraphs import FastGraph
 from final.graphutil import disjoint_union
 
 
-def isIsomorphism(g, D=[], I=[], iso_found=False):
+def is_isomorphism(g, D=[], I=[], iso_found=False):
     coloring = alpha_coloring(g, D, I)
     highest_degree = -1
     for key in coloring.keys():
@@ -45,15 +45,15 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
         I_y = []
         I_y.extend(I)
         I_y.append(y)
-        iso_found = isIsomorphism(g, D_x, I_y, iso_found) > 0
+        iso_found = is_isomorphism(g, D_x, I_y, iso_found) > 0
         if iso_found:
             return True
     return iso_found
 
 # ----- MAIN -----
 
-# GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
-# G = GL[0]
-# H = GL[3]
-# print(isIsomorphism(disjoint_union(G, H)))
+GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
+G = GL[0]
+H = GL[3]
+print(is_isomorphism(disjoint_union(G, H)))
 
