@@ -1,24 +1,6 @@
 from lfn.coloringmanipulation import *
 
 
-# def equal_coloring(c1, c2):
-#     if len(c1) is not len(c2):
-#         return False
-#     for color in c1.keys():
-#         if len(c2[color]) is not len(c1[color]):
-#             return False
-#         for index in range(c1[color]):
-#             if c1[color][index] is not c2[color][index]:
-#                 return False
-#     return True
-#
-#
-# def color_refinement(coloring):
-#     i = 0
-#     new_coloring = dict()
-#     while not equal_coloring(coloring, new_coloring):
-#         i = i + 1
-
 def minimizationpartitioning(colouringmap, highestDeg):
     W = [pick_smallest_splitter(colouringmap)]
     if None in W:
@@ -319,11 +301,6 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
         I_y = []
         I_y.extend(I)
         I_y.append(y)
-        # for key in coloring.keys():
-        #     color_class = coloring[key]
-        #     for vertex in color_class:
-        #         vertex.setColornum(key)
-        # iso_found = iso_found or count_isomorphism(g, D_x, I_y)
         iso_found = isIsomorphism(g, D_x, I_y, iso_found) > 0
         if iso_found:
             return True
@@ -333,10 +310,11 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
 # GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\products72.grl", FastGraph, True)
 GL, settings = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
+GL, settings = loadgraph("testGraphs\\torus144.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\cubes5.grl", FastGraph, True)
 
 graph1 = GL[0]
-graph2 = GL[2]
+graph2 = GL[0]
 
 # graph1 = loadgraph("testGraphs\\threepaths5.gr", FastGraph)
 # graph2 = loadgraph("testGraphs\\threepaths160.gr", FastGraph)
@@ -346,55 +324,3 @@ G = disjointunion(graph1, graph2)
 # print(count_isomorphism(G, [], []))
 
 print(isIsomorphism(G))
-
-
-# def isIsomorphism(numberOfVertices, colourmap):
-#     if not isBalanced(colourmap, numberOfVertices):
-#         return 0
-#     if isBijection(colourmap):
-#         return 1
-#     num = 0
-#     highestDeg = -1
-#     for key in colourmap.keys():
-#         if key > highestDeg:
-#             highestDeg = key
-#     for key in colourmap.keys():
-#         if len(colourmap.get(key)) >= 4:
-#             colorclass = colourmap.get(key)
-#             for node in colorclass:
-#                 if node.getLabel() < numberOfVertices//2:
-#                     x = node
-#                     dictionary = deepCopyMap(colourmap)
-#
-#                     dictionary.get(key).remove(x)
-#
-#                     x.setColornum(highestDeg + 1)
-#
-#                     newColourClass = [x]
-#                     dictionary[highestDeg + 1] = newColourClass
-#
-#                     for secondNode in colorclass:
-#                         if secondNode.getLabel() >= numberOfVertices//2:
-#                             dictionary2 = deepCopyMap(dictionary)
-#
-#                             dictionary2.get(key).remove(secondNode)
-#
-#                             secondNode.setColornum(highestDeg + 1)
-#
-#                             newColourClass.append(secondNode)
-#                             dictionary2[highestDeg + 1] = newColourClass
-#
-#                             dictionary2 = minimizationpartitioning(dictionary2, highestDeg + 1)
-#                             if isBijection(dictionary2):
-#                                 return 1
-#                             else:
-#                                 oldColourClass = dictionary2[key]
-#                                 oldColourClass.append(secondNode)
-#                                 dictionary2[key] = oldColourClass
-#                                 secondNode.setColornum(key)
-#                                 newColourClass.remove(secondNode)
-#                     x.setColornum(key)
-#                     oldColourClass1 = dictionary[key]
-#                     oldColourClass1.append(x)
-#                     dictionary[key] = oldColourClass1
-#     return num

@@ -99,16 +99,16 @@ def coloring_refinement(coloring, highest_degree = -1):
     return coloring
 
 "############################## Testing ##############################"
-
-from util.graphutil import *
-
-
-GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
-G = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)[0][0]
-H = disjointunion(GL[1], GL[3])
-alpha = get_coloring(G)
-beta = get_coloring(H)
-
-writeDOT(G, "test_get_coloring_alpha.dot")
-writeDOT(H, "test_get_coloring_beta.dot")
+#
+# from util.graphutil import *
+#
+#
+# GL, options = loadgraph('testGraphs\\colorref_smallexample_4_7.grl', FastGraph, True)
+# G = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)[0][0]
+# H = disjointunion(GL[1], GL[3])
+# alpha = get_coloring(G)
+# beta = get_coloring(H)
+#
+# writeDOT(G, "test_get_coloring_alpha.dot")
+# writeDOT(H, "test_get_coloring_beta.dot")
 
