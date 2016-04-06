@@ -7,7 +7,7 @@ class coloring:
         self.__colors = dict()
 
     def put(self, color, v):
-        v.setColornum(color)
+        v.set_color_num(color)
         if self.__colors.get(color) is not None:
             self.__colors[color].append(v)
         else:
@@ -15,15 +15,15 @@ class coloring:
             self.__colors[color].append(v)
 
     def remove(self, v):
-        self.__colors[v.getColornum()].remove(v)
+        self.__colors[v.get_color_num()].remove(v)
 
     def move(self, v, to):
-        self.__colors[v.getColornum()].remove(v)
+        self.__colors[v.get_color_num()].remove(v)
         self.put(to, v)
 
     def moveAll(self, vs, to):
         if len(vs) > 0:
-            color = vs[0].getColornum()
+            color = vs[0].get_color_num()
             for v in vs:
                 self.__colors[color].remove(v)
                 self.put(to, v)
@@ -73,16 +73,16 @@ class coloring:
 def getColoringByDegree(G):
     alpha = coloring()
     for v in G.V():
-        alpha.put(v.getDegree(), v)
+        alpha.put(v.get_degree(), v)
     return alpha
 
 def getColoring2(G):
     alpha = coloring()
     highestDegree = -1
     for v in G.V():
-        alpha.put(v.getDegree(), v)
-        if highestDegree < v.getColornum():
-            highestDegree = v.getColornum()
+        alpha.put(v.get_degree(), v)
+        if highestDegree < v.get_color_num():
+            highestDegree = v.get_color_num()
     changed = True
     # De colour refinement:
     while changed:
@@ -103,9 +103,9 @@ def getColoring(G):
     alpha = coloring()
     highestDegree = -1
     for v in G.V():
-        alpha.put(v.getDegree(), v)
-        if highestDegree < v.getColornum():
-            highestDegree = v.getColornum()
+        alpha.put(v.get_degree(), v)
+        if highestDegree < v.get_color_num():
+            highestDegree = v.get_color_num()
     changed = True
     buffer = alpha
     # De colour refinement:

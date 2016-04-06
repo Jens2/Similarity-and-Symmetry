@@ -1,14 +1,14 @@
 from lfn.colorrefinement import checkNeighbourhood
 
 def put(coloring, color, v):
-    v.setColornum(color)
+    v.set_color_num(color)
     if coloring.get(color) is not None:
         coloring[color].append(v)
     else:
         coloring[color] = [v]
 
 def remove(coloring, v):
-    coloring[v.getColornum()].remove(v)
+    coloring[v.get_color_num()].remove(v)
 
 def move(coloring, v, to):
     remove(coloring, v)
@@ -59,9 +59,9 @@ def get_coloring(G):
     alpha = dict()
     highest_degree = -1
     for v in G.V():
-        put(alpha, v.getDegree(), v)
-        if highest_degree < v.getColornum():
-            highest_degree = v.getColornum()
+        put(alpha, v.get_degree(), v)
+        if highest_degree < v.get_color_num():
+            highest_degree = v.get_color_num()
     changed = True
     # De colour refinement:
     while changed:

@@ -23,26 +23,26 @@ def isIsomorphism(numberOfVertices, colourmap):
         if len(colourmap.get(key)) >= 4:
             colorclass = colourmap.get(key)
             for node in colorclass:
-                if node.getLabel() < numberOfVertices//2:
+                if node.get_label() < numberOfVertices//2:
                     x = node
                     dictionary = deepCopyMap(colourmap)
                     nodeList = []
 
                     dictionary.get(key).remove(x)
 
-                    x.setColornum(highestDeg + 1)
+                    x.set_color_num(highestDeg + 1)
 
                     newColourClass = [x]
                     dictionary[highestDeg + 1] = newColourClass
 
                     for secondNode in colorclass:
-                        if secondNode.getLabel() >= numberOfVertices//2 and secondNode not in nodeList:
+                        if secondNode.get_label() >= numberOfVertices//2 and secondNode not in nodeList:
                             nodeList.append(secondNode)
                             dictionary2 = deepCopyMap(dictionary)
 
                             dictionary2.get(key).remove(secondNode)
 
-                            secondNode.setColornum(highestDeg + 1)
+                            secondNode.set_color_num(highestDeg + 1)
 
                             newColourClass.append(secondNode)
                             dictionary2[highestDeg + 1] = newColourClass
@@ -54,14 +54,14 @@ def isIsomorphism(numberOfVertices, colourmap):
                                 oldColourClass = dictionary2[key]
                                 oldColourClass.append(secondNode)
                                 dictionary2[key] = oldColourClass
-                                secondNode.setColornum(key)
+                                secondNode.set_color_num(key)
                             else:
                                 oldColourClass = dictionary2[key]
                                 oldColourClass.append(secondNode)
                                 dictionary2[key] = oldColourClass
-                                secondNode.setColornum(key)
+                                secondNode.set_color_num(key)
                                 newColourClass.remove(secondNode)
-                    x.setColornum(key)
+                    x.set_color_num(key)
                     oldColourClass1 = dictionary[key]
                     oldColourClass1.append(x)
                     dictionary[key] = oldColourClass1
@@ -73,7 +73,7 @@ def isBalanced(dict, numberOfVertices):
         if len(dict.get(key)) % 2 != 0:
             return False
         for vertex in dict.get(key):
-            if vertex.getLabel() < numberOfVertices//2:
+            if vertex.get_label() < numberOfVertices//2:
                 counter+=1
             else:
                 counter-=1
@@ -180,26 +180,26 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
         highestnotset = False
     for v in graph.V():
         if highestnotset:
-            if highestDeg < v.getColornum():
-                highestDeg = v.getColornum()
+            if highestDeg < v.get_color_num():
+                highestDeg = v.get_color_num()
         if v not in D and v not in I:
-            if mapofcolourlists.get(v.getColornum()) is not None:
-                oldList = mapofcolourlists.get(v.getColornum())
+            if mapofcolourlists.get(v.get_color_num()) is not None:
+                oldList = mapofcolourlists.get(v.get_color_num())
                 oldList.append(v)
-                mapofcolourlists[v.getColornum()] = oldList
+                mapofcolourlists[v.get_color_num()] = oldList
             else:
                 newList = [v]
-                mapofcolourlists[v.getColornum()] = newList
+                mapofcolourlists[v.get_color_num()] = newList
     maptowork = mapofcolourlists
     if len(D) >= 1 and len(I) >= 1:
         newList = []
         for i in range(len(D)):
             x = D[i]
-            x.setColornum(highestDeg)
+            x.set_color_num(highestDeg)
             newList.append(x)
         for i in range(len(I)):
             y = I[i]
-            y.setColornum(highestDeg)
+            y.set_color_num(highestDeg)
             newList.append(y)
         maptowork[highestDeg] = newList
     W = pick_smallest_splitter(maptowork)
@@ -226,7 +226,7 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
                     highestDeg += 1
                     maptowork[highestDeg] = nodecount[key]
                     for node in nodecount[key]:
-                        node.setColornum(highestDeg)
+                        node.set_color_num(highestDeg)
                     if wcontains:
                         W.append(nodecount[key])
                     for node in nodecount[key]:
@@ -273,16 +273,16 @@ def countIsomorphism(gr, highestDeg, numberOfVertices, D=[], I=[], oldClass=None
         if len(dictionary[key]) >= 4:
             colorclass = dictionary[key]
             for x in colorclass:
-                if x.getLabel() < numberOfVertices//2:
+                if x.get_label() < numberOfVertices//2:
                     D.append(x)
                     dictionary2 = deepCopyMap(dictionary)
                     dictionary2[key].remove(x)
-                    x.setColornum(highestDeg + 1)
+                    x.set_color_num(highestDeg + 1)
                     for y in colorclass:
-                        if y.getLabel() >= numberOfVertices//2:
+                        if y.get_label() >= numberOfVertices//2:
                             I.append(y)
                             dictionary2[key].remove(y)
-                            y.setColornum(highestDeg + 1)
+                            y.set_color_num(highestDeg + 1)
                             num += countIsomorphism(gr, highestDeg + 1, numberOfVertices, D, I, key)
     return num
 
@@ -329,8 +329,8 @@ def count_and_sort_neighbours(colouring, colour_class):
                 no_of_neighbours[neighbour] += 1
             else:
                 no_of_neighbours[neighbour] = 1
-            if neighbour.getColornum() not in list_of_colours:
-                list_of_colours.append(neighbour.getColornum())
+            if neighbour.get_color_num() not in list_of_colours:
+                list_of_colours.append(neighbour.get_color_num())
 
     classes_to_split = dict()
 
@@ -355,7 +355,7 @@ def printLabels(cmap):
         print("***************************************************************************************")
         print("Kleur: " + str(colour))
         for node in cmap[colour]:
-            print("Label: " + str(node.getColornum()))
+            print("Label: " + str(node.get_color_num()))
 
 
 sys.setrecursionlimit(5000)

@@ -1,5 +1,7 @@
 from lfn.coloringmanipulation import *
-
+from util.graphIO import loadgraph
+from util.graphutil import disjointunion
+from graphImplementations.fastgraphs import *
 
 def minimizationpartitioning(colouringmap, highestDeg):
     W = [pick_smallest_splitter(colouringmap)]
@@ -88,8 +90,8 @@ def count_and_sort_neighbours(colouring, colour_class):
                 no_of_neighbours[neighbour] += 1
             else:
                 no_of_neighbours[neighbour] = 1
-            if neighbour.getColornum() not in list_of_colours:
-                list_of_colours.append(neighbour.getColornum())
+            if neighbour.get_color_num() not in list_of_colours:
+                list_of_colours.append(neighbour.get_color_num())
     classes_to_split = dict()
     for colour in list_of_colours:
         class_with_nodecount = dict()
@@ -121,7 +123,7 @@ def checkNeighbourhood(u, v):
     for node in u.nbs():
         done = False
         for neighbour in v.nbs():
-            if node.getColornum() == neighbour.getColornum() and neighbour not in nodedone:
+            if node.get_color_num() == neighbour.get_color_num() and neighbour not in nodedone:
                 nodedone.append(neighbour)
                 done = True
                 break
@@ -163,7 +165,7 @@ def beta_coloring(coloring, highest_degree=-1):
                             newList = [v]
                             buffer[highest_degree + 1] = newList
                 for v in changelist:
-                    v.setColornum(highest_degree + 1)
+                    v.set_color_num(highest_degree + 1)
                 if changed:
                     highest_degree += 1
     return buffer
@@ -173,7 +175,7 @@ def is_balanced(coloring, number_of_vertices):
     for key in coloring.keys():
         counter = 0
         for v in coloring.get(key):
-            if v.getLabel() < number_of_vertices // 2:
+            if v.get_label() < number_of_vertices // 2:
                 counter += 1
             else:
                 counter -= 1
@@ -201,13 +203,13 @@ def alpha_coloring(g, d, i):
         zero_color.remove(I_v)
     for v in zero_color:
         coloring[0].append(v)
-        v.setColornum(0)
+        v.setColorNum(0)
     for index in range(len(d)):
         coloring[index + 1].append(d[index])
-        d[index].setColornum(index + 1)
+        d[index].setColorNum(index + 1)
     for index in range(len(i)):
         coloring[index + 1].append(i[index])
-        i[index].setColornum(index + 1)
+        i[index].setColorNum(index + 1)
     return coloring
 
 
@@ -223,7 +225,7 @@ def count_isomorphism(g, D, I):
     for key in coloring.keys():
         color_class = coloring[key]
         for vertex in color_class:
-            vertex.setColornum(key)
+            vertex.set_color_num(key)
 
     if not is_balanced(coloring, len(g.V())):
         return 0
@@ -236,12 +238,12 @@ def count_isomorphism(g, D, I):
             break
     x = None
     for node in color_class:
-        if node.getLabel() < len(g.V()) // 2:
+        if node.get_label() < len(g.V()) // 2:
             x = node
     num = 0
     C_intersect_H = []
     for v in color_class:
-        if v.getLabel() >= len(g.V()) // 2:
+        if v.get_label() >= len(g.V()) // 2:
             C_intersect_H.append(v)
     D_x = []
     D_x.extend(D)
@@ -254,7 +256,7 @@ def count_isomorphism(g, D, I):
         for key in coloring.keys():
             color_class = coloring[key]
             for vertex in color_class:
-                vertex.setColornum(key)
+                vertex.set_color_num(key)
         num += count_isomorphism(g, D_x, I_y)
     return num
 
@@ -271,7 +273,7 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
     for key in coloring.keys():
         color_class = coloring[key]
         for vertex in color_class:
-            vertex.setColornum(key)
+            vertex.set_color_num(key)
 
     if not is_balanced(coloring, len(g.V())):
         return False
@@ -287,12 +289,12 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
             break
     x = None
     for node in color_class:
-        if node.getLabel() < len(g.V()) // 2:
+        if node.get_label() < len(g.V()) // 2:
             x = node
     iso_found = False
     C_intersect_H = []
     for v in color_class:
-        if v.getLabel() >= len(g.V()) // 2:
+        if v.get_label() >= len(g.V()) // 2:
             C_intersect_H.append(v)
     D_x = []
     D_x.extend(D)
@@ -307,20 +309,51 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
     return iso_found
 
 
+
+
+
+
+
 # GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\products72.grl", FastGraph, True)
-GL, settings = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
-GL, settings = loadgraph("testGraphs\\torus144.grl", FastGraph, True)
+# GL, settings = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
+# GL, settings = loadgraph("testGraphs\\torus144.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\cubes5.grl", FastGraph, True)
 
-graph1 = GL[0]
-graph2 = GL[0]
+# GL, settings = loadgraph("Basic\\basicGIAut.grl", FastGraph, True)
+
+# graph1 = GL[0]
+# graph2 = GL[0]
 
 # graph1 = loadgraph("testGraphs\\threepaths5.gr", FastGraph)
 # graph2 = loadgraph("testGraphs\\threepaths160.gr", FastGraph)
 
-G = disjointunion(graph1, graph2)
+
+# for graph in GL:
+#     graph1 = graph
+#     graph2 = graph
+#     G = disjointunion(graph1, graph2)
+#     print(count_isomorphism(G, [], []))
+
+# graph1 = loadgraph("Basic\\basicAut2.gr", FastGraph)
+# graph2 = loadgraph("Basic\\basicAut2.gr", FastGraph)
+
+# G = disjointunion(graph1, graph2)
 
 # print(count_isomorphism(G, [], []))
 
-print(isIsomorphism(G))
+# print(isIsomorphism(G))
+
+# graph1 = loadgraph("Basic\\basicGI1.grl", FastGraph, True)[0][1]
+# graph2 = loadgraph("Basic\\basicGI1.grl", FastGraph, True)[0][3]
+
+G = loadgraph("bonusAut1.gr", FastGraph)
+G = disjointunion(G, G)
+
+# G = disjointunion(graph1, graph2)
+
+
+
+print(count_isomorphism(G, [], []))
+
+

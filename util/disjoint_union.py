@@ -8,15 +8,15 @@ def disjointunion(g, h):
     length = len(g.V())
     for vertex in hcopy.V():
         vertex._label += length
-        vertex.setGraph(result)
-        node = result.addvertex(vertex.getLabel())
+        vertex.set_graph(result)
+        node = result.addvertex(vertex.get_label())
         listofvertices.append(node)
     for edge in hcopy.E():
         for node in listofvertices:
             # print(type(node._label))
-            if edge.tail().getLabel() is node.getLabel():
+            if edge.tail().get_label() is node.get_label():
                 edge.setTail(node)
-            elif edge.head().getLabel() is node.getLabel():
+            elif edge.head().get_label() is node.get_label():
                 edge.setHead(node)
         result.addedge(edge.tail(), edge.head())
     # for node in result:
@@ -29,10 +29,10 @@ def disjointunion(g, h):
 def disjoint_union(g, h):
     result = FastGraph(len(g.V()) + len(h.V()))
     for g_edge in g.E():
-        result.addedge(result.V()[g_edge.tail().getLabel()], result.V()[g_edge.head().getLabel()])
+        result.addedge(result.V()[g_edge.tail().get_label()], result.V()[g_edge.head().get_label()])
     offset = len(g.V())
     for h_edge in h.E():
-        result.addedge(result.V()[h_edge.tail().getLabel() + offset], result.V()[h_edge.head().getLabel() + offset])
+        result.addedge(result.V()[h_edge.tail().get_label() + offset], result.V()[h_edge.head().get_label() + offset])
     return result
 
 

@@ -117,8 +117,8 @@ def count_and_sort_neighbours(colouring, colour_class):
                 no_of_neighbours[neighbour] += 1
             else:
                 no_of_neighbours[neighbour] = 1
-            if neighbour.getColornum() not in list_of_colours:
-                list_of_colours.append(neighbour.getColornum())
+            if neighbour.get_color_num() not in list_of_colours:
+                list_of_colours.append(neighbour.get_color_num())
     classes_to_split = dict()
     for colour in list_of_colours:
         class_with_nodecount = dict()

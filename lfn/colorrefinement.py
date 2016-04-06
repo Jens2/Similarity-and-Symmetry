@@ -8,15 +8,15 @@ def colorref(G, onlyInit=False):
     mapofcolourlists = dict()
     highestDeg = - 1
     for v in G.V():
-        if highestDeg < v.getColornum():
-            highestDeg = v.getColornum()
-        if mapofcolourlists.get(v.getColornum()) is not None:
-            oldList = mapofcolourlists.get(v.getColornum())
+        if highestDeg < v.get_color_num():
+            highestDeg = v.get_color_num()
+        if mapofcolourlists.get(v.get_color_num()) is not None:
+            oldList = mapofcolourlists.get(v.get_color_num())
             oldList.append(v)
-            mapofcolourlists[v.getColornum()] = oldList
+            mapofcolourlists[v.get_color_num()] = oldList
         else:
             newList = [v]
-            mapofcolourlists[v.getColornum()] = newList
+            mapofcolourlists[v.get_color_num()] = newList
     if onlyInit:
         return mapofcolourlists, highestDeg, len(G.V())
     return colouring(mapofcolourlists, highestDeg), len(G.V())
@@ -54,7 +54,7 @@ def colouring(mapofcolourlists, highestDeg=-1):
                             newList = [v]
                             buffer[highestDeg + 1] = newList
                 for v in changelist:
-                    v.setColornum(highestDeg + 1)
+                    v.set_color_num(highestDeg + 1)
                 if changed:
                     highestDeg += 1
     return buffer
@@ -70,7 +70,7 @@ def checkNeighbourhood(u, v):
     for node in u.nbs():
         done = False
         for neighbour in v.nbs():
-            if node.getColornum() == neighbour.getColornum() and neighbour not in nodedone:
+            if node.get_color_num() == neighbour.get_color_num() and neighbour not in nodedone:
                 nodedone.append(neighbour)
                 done = True
                 break

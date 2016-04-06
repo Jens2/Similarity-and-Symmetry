@@ -84,7 +84,7 @@ def complement(g):
     for node in g.V():
         for neighbour in g.V():
             if not node.adj(neighbour):
-                result.addedge(result.__getitem__(node.getLabel()), result.__getitem__(neighbour.getLabel()))
+                result.addedge(result.__getitem__(node.get_label()), result.__getitem__(neighbour.get_label()))
     return result
 
 
