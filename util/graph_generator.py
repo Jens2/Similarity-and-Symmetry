@@ -121,6 +121,31 @@ def create_planar(n):
     return g
 
 
+def make_tree(n):
+    g = graph(n)
+    if n > 2:
+        connect_recursive(g, g.V()[0], g.V()[1:])
+    elif n is 2:
+        g.addedge(g.V()[0], g.V()[1])
+    return g
+
+
+def connect_recursive(g, root, nodes):
+    if len(nodes) > 0:
+        index = random.choice(range(len(nodes)))
+        left = [v for v in nodes[index:]]
+        right = [v for v in nodes[:index]]
+        if len(left) is not 0:
+            left_root = random.choice(left)
+            g.addedge(root, left_root)
+            new_left = [v for v in left if v is not left_root]
+            connect_recursive(g, left_root, new_left)
+        if len(right) is not 0:
+            right_root = random.choice(right)
+            g.addedge(root, right_root)
+            new_right = [v for v in right if v is not right_root]
+            connect_recursive(g, right_root, new_right)
+
 
 def create_tree(n):
     g = graph(n)
@@ -156,4 +181,10 @@ def create_tree(n):
     print(G3)
     return g
 
-print(create_tree(9))
+# print(create_tree(9))
+
+G = make_tree(90)
+
+print(G)
+writeDOT(G, "TestingPlease.dot", False)
+
