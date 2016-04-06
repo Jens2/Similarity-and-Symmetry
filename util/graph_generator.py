@@ -147,6 +147,62 @@ def connect_recursive(g, root, nodes):
             connect_recursive(g, right_root, new_right)
 
 
+# def make_non_binary_tree(n):
+#     g = graph(n)
+#     if n > 2:
+#         new_roots = pick_roots(g.V()[1:])
+#         connect_recursive_not_binary(g, g.V()[0], g.V()[1:])
+#     elif n is 2:
+#         g.addedge(g.V()[0], g.V()[1])
+#     return g
+
+
+# def connect_recursive_not_binary(g, root, new_roots, free_nodes):
+#     for v in new_roots:
+#         g.addedge(root, v)
+#     new_new_roots = pick_roots(free_nodes)
+#     for v in new_new_roots:
+#         free_nodes.remove(v)
+#     for v in new_roots:
+#         connect_recursive_not_binary(g, v, new_new_roots, [u for u in free_nodes[]])
+
+# def connect_recursive_not_binary(g, root, nodes):
+#     new_roots = pick_roots(nodes)
+#     for v in new_roots:
+#         g.addedge(v, root)
+#         nodes.remove(v)
+#     partitions = chunkIt(nodes, len(new_roots))
+#     for i in range(len(new_roots)):
+#         connect_recursive_not_binary(g, new_roots[i], partitions[i])
+#
+#
+# def pick_roots(nodes):
+#     roots = []
+#     if len(nodes) > 0:
+#         split = 0
+#         if len(nodes) > 1:
+#             split = random.choice(range(1, len(nodes)))
+#         picked = 0
+#         while picked < split:
+#             root = random.choice(nodes)
+#             if root not in roots:
+#                 picked += 1
+#                 roots.append(root)
+#     return roots
+#
+# def chunkIt(seq, num):
+#     if num == 0:
+#         return seq
+#     avg = len(seq) / float(num)
+#     out = []
+#     last = 0.0
+#
+#     while last < len(seq):
+#         out.append(seq[int(last):int(last + avg)])
+#         last += avg
+#     return out
+
+
 def create_tree(n):
     g = graph(n)
     V = g.V()
