@@ -1,0 +1,11 @@
+
+To run the program:
+
+    For GI:
+        Run isisomorphism.py. Path should be altered at the end of the file. torus24.grl
+        has already been added.
+    For #Aut:
+        Run countautomorphism.py. Again, the path should be altered at the end of the file.
+
+
+
