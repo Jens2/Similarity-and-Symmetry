@@ -1,5 +1,8 @@
 from final.coloringutil import is_balanced, defines_bijection
 from final.coloring import alpha_coloring, minimization_partitioning
+from final.graphIO import loadgraph
+from final.fastgraphs import FastGraph
+from final.graphutil import disjoint_union
 
 
 def isIsomorphism(g, D=[], I=[], iso_found=False):
@@ -18,7 +21,6 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
     if not is_balanced(coloring, len(g.V())):
         return False
     if defines_bijection(coloring):
-        iso_found = True
         return True
     if iso_found:
         return True
@@ -47,4 +49,11 @@ def isIsomorphism(g, D=[], I=[], iso_found=False):
         if iso_found:
             return True
     return iso_found
+
+# ----- MAIN -----
+
+# GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
+# G = GL[0]
+# H = GL[3]
+# print(isIsomorphism(disjoint_union(G, H)))
 

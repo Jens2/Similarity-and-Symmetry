@@ -1,5 +1,8 @@
 from final.coloringutil import is_balanced, defines_bijection
 from final.coloring import alpha_coloring, minimization_partitioning
+from final.graphutil import disjoint_union
+from final.graphIO import loadgraph
+from final.fastgraphs import FastGraph
 
 
 def count_isomorphism(g, d=[], i=[]):
@@ -44,3 +47,11 @@ def count_isomorphism(g, d=[], i=[]):
                 vertex.setColornum(key)
         num += count_isomorphism(g, d_x, i_y)
     return num
+
+# ----- MAIN -----
+
+# GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
+# G = GL[0]
+# H = GL[3]
+# print(count_isomorphism(disjoint_union(G, H)))
+
