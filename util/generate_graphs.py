@@ -1,7 +1,7 @@
 from util.graph_generator import *
 
-graph_amount = 20
-graph_size = 60
+graph_amount = 40
+graph_size = 150
 
 GL_complete = []
 GL_bipartite = []
