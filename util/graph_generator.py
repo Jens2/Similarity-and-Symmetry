@@ -183,7 +183,7 @@ def create_tree(n):
 
 # print(create_tree(9))
 
-G = make_tree(90)
+G = make_tree(30)
 
 print(G)
 writeDOT(G, "TestingPlease.dot", False)
