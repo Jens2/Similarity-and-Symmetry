@@ -273,12 +273,11 @@ def count_isomorphism(g, D, I):
             color_class = coloring[key]
             for vertex in color_class:
                 vertex.setColornum(key)
-
         num += count_isomorphism(g, D_x, I_y)
     return num
 
 
-def isIsomorphism(g, D=[], I=[]):
+def isIsomorphism(g, D=[], I=[], iso_found=False):
     coloring = alpha_coloring(g, D, I)
     highest_degree = -1
     for key in coloring.keys():
@@ -295,6 +294,9 @@ def isIsomorphism(g, D=[], I=[]):
     if not is_balanced(coloring, len(g.V())):
         return False
     if defines_bijection(coloring):
+        iso_found = True
+        return True
+    if iso_found:
         return True
     color_class = None
     for key in coloring.keys():
@@ -322,14 +324,13 @@ def isIsomorphism(g, D=[], I=[]):
         #     for vertex in color_class:
         #         vertex.setColornum(key)
         # iso_found = iso_found or count_isomorphism(g, D_x, I_y)
-        iso_found = count_isomorphism(g, D_x, I_y) > 0
+        iso_found = isIsomorphism(g, D_x, I_y, iso_found) > 0
         if iso_found:
             return True
     return iso_found
 
 
 # GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
-# GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\products72.grl", FastGraph, True)
 GL, settings = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
 # GL, settings = loadgraph("testGraphs\\cubes5.grl", FastGraph, True)

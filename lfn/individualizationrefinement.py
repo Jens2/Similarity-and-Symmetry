@@ -176,7 +176,6 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
     mapofcolourlists = dict()
     if highestDeg == -1:
         highestnotset = True
-        print("aha")
     else:
         highestnotset = False
     for v in graph.V():
@@ -192,24 +191,27 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
                 newList = [v]
                 mapofcolourlists[v.getColornum()] = newList
     maptowork = mapofcolourlists
-    print(highestDeg)
-    highestDeg -= 1
     if len(D) >= 1 and len(I) >= 1:
-        x = D[len(D) - 1]
-        y = I[len(I) - 1]
-        x.setColornum(highestDeg)
-        y.setColornum(highestDeg)
-        # print(highestDeg)
-        newList = [x, y]
+        newList = []
+        for i in range(len(D)):
+            x = D[i]
+            x.setColornum(highestDeg)
+            newList.append(x)
+        for i in range(len(I)):
+            y = I[i]
+            y.setColornum(highestDeg)
+            newList.append(y)
         maptowork[highestDeg] = newList
-
     W = pick_smallest_splitter(maptowork)
     if None in W:
         W = []
     while len(W) > 0:
         A = W.pop()
         classes_to_split = count_and_sort_neighbours(maptowork, A)
+        print("classes to split")
+        print(classes_to_split)
         for colour_class in classes_to_split.keys():
+
             wcontains = False
             first = True
             new_minimal_entry = []
@@ -228,7 +230,8 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
                     if wcontains:
                         W.append(nodecount[key])
                     for node in nodecount[key]:
-                        maptowork[colour_class].remove(node)
+                        if node in maptowork[colour_class]:
+                            maptowork[colour_class].remove(node)
                 else:
                     if wcontains:
                         W.append(nodecount[key])
@@ -237,33 +240,37 @@ def minimizationpartitioning(graph, D, I, highestDeg=-1):
                 W.append(new_minimal_entry)
     return maptowork, D, I
 
-def maptoLists(colourmap):
-    return 0
-
-def liststoMap(D, I):
-    return 0
-
-def countIsomorphism(graph, highestDeg, numberOfVertices, D=[], I=[], oldClass=None):
-    dictionary, D, I = minimizationpartitioning(graph, D, I, highestDeg)
+def countIsomorphism(gr, highestDeg, numberOfVertices, D=[], I=[], oldClass=None):
+    dictionary, D, I = minimizationpartitioning(gr, D, I, highestDeg)
     if not isBalanced(dictionary, numberOfVertices):
         return 0
     if isBijection(dictionary):
         print("jeej")
         return 1
-    if len(D) >= 1 and len(I) >= 1:
-        newList = dictionary[oldClass]
-        x = D[len(D) - 1]
-        y = I[len(I) - 1]
-        x.setColornum(oldClass)
-        y.setColornum(oldClass)
-        newList.append(x)
-        newList.append(y)
-        # D.remove(x)
-        # I.remove(y)
-        dictionary[oldClass] = newList
+    # if len(D) >= 1 and len(I) >= 1:
+    #     print("oldClass")
+    #     print("oldClass")
+    #     print("oldClass")
+    #     print(oldClass)
+    #     print("oldClass")
+    #     print("oldClass")
+    #     newList = dictionary[oldClass]
+    #     for i in range(len(D) - 1):
+    #         x = D[i]
+    #         x.setColornum(highestDeg)
+    #         newList.append(x)
+    #         D.remove(x)
+    #     for i in range(len(I) - 1):
+    #         y = I[i]
+    #         y.setColornum(highestDeg)
+    #         newList.append(y)
+    #         I.remove(y)
+    #     print("oldClass")
+    #     print(oldClass)
+    #     dictionary[oldClass] = newList
     num = 0
     for key in dictionary.keys():
-        if len(dictionary[key]) >= 8:
+        if len(dictionary[key]) >= 4:
             colorclass = dictionary[key]
             for x in colorclass:
                 if x.getLabel() < numberOfVertices//2:
@@ -276,7 +283,7 @@ def countIsomorphism(graph, highestDeg, numberOfVertices, D=[], I=[], oldClass=N
                             I.append(y)
                             dictionary2[key].remove(y)
                             y.setColornum(highestDeg + 1)
-                            num += countIsomorphism(graph, highestDeg + 1, numberOfVertices, D, I, key)
+                            num += countIsomorphism(gr, highestDeg + 1, numberOfVertices, D, I, key)
     return num
 
 def pick_smallest_splitter(colouringmap):
@@ -318,12 +325,13 @@ def count_and_sort_neighbours(colouring, colour_class):
     list_of_colours = []
     for node in colour_class:
         for neighbour in node.nbs():
-            if neighbour in no_of_neighbours:
+            if neighbour in no_of_neighbours.keys():
                 no_of_neighbours[neighbour] += 1
             else:
                 no_of_neighbours[neighbour] = 1
             if neighbour.getColornum() not in list_of_colours:
                 list_of_colours.append(neighbour.getColornum())
+
     classes_to_split = dict()
 
     for colour in list_of_colours:
@@ -337,8 +345,7 @@ def count_and_sort_neighbours(colouring, colour_class):
                 class_with_nodecount[count].append(node)
             else:
                 class_with_nodecount[count] = [node]
-        # print(colour)
-        # print(class_with_nodecount)
+
         if len(class_with_nodecount) > 1:
             classes_to_split[colour] = class_with_nodecount
     return classes_to_split
@@ -355,7 +362,7 @@ sys.setrecursionlimit(5000)
 start = time()
 # GL, settings = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
 # GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph, True)
-GL, settings = loadgraph("testGraphs\\trees36.grl", FastGraph, True)
+GL, settings = loadgraph("testGraphs\\torus24.grl", FastGraph, True)
 GL1, setting = loadgraph("testGraphs\\bigtrees1.grl", FastGraph, True)
 graph1 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
 graph2 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
@@ -364,7 +371,7 @@ graph2 = loadgraph("testGraphs\\threepaths20.gr", FastGraph)
 print("Done loading: " + str(time() - start))
 # union2 = disjointunion(graph3, graph4)
 start = time()
-union = disjointunion(GL[2],GL[6])
+union = disjointunion(GL[0],GL[3])
 # union = disjointunion(graph1, graph2)
 print("Disjoint union: " + str(time() - start))
 start = time()
