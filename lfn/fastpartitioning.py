@@ -144,6 +144,6 @@ GL1, setting = loadgraph("testGraphs\\colorref_smallexample_2_49.grl", FastGraph
 # GL1, setting = loadgraph("testGraphs\\bigtrees2.grl", FastGraph, True)
 union = disjointunion(GL[0], GL[1])
 colored,highestDeg, numberofV = colorref(union, True)
-countIsomorphism(numberofV, minimizationpartitioning(colored,highestDeg))
+# countIsomorphism(numberofV, minimizationpartitioning(colored,highestDeg))
 ref, a = colorref(GL1[0])
 # print(individualizationref(ref, a, True))
