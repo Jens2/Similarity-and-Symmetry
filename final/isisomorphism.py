@@ -3,6 +3,7 @@ from final.coloring import alpha_coloring, minimization_partitioning
 from final.graphIO import loadgraph
 from final.fastgraphs import FastGraph
 from final.graphutil import disjoint_union
+from time import time
 
 
 def is_isomorphism(g, D=[], I=[], iso_found=False):
@@ -50,10 +51,58 @@ def is_isomorphism(g, D=[], I=[], iso_found=False):
             return True
     return iso_found
 
+def printTimeList(timeList):
+    averageUnion = 0
+    averageIso = 0
+    no = 0
+    for key in timeList.keys():
+        no += 1
+        averageUnion += timeList[key][0]
+        averageIso += timeList[key][2]
+        print("**************************")
+        print(key + ":")
+        print("Disjoint union:      " + str(timeList[key][0]))
+        print("Is isomorphism:      " + str(timeList[key][1]))
+        print("Time isomorphism:    " + str(timeList[key][2]))
+    averageIso = averageIso / no
+    averageUnion = averageUnion / no
+    print("\n")
+    print("Average time for disjoint union:     " + str(averageUnion))
+    print("Average time for is isommorphism:    " + str(averageIso))
+    print("Total average time:                  " + str(averageIso + averageUnion))
 # ----- MAIN -----
 
 GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
-G = GL[0]
-H = GL[3]
-print(is_isomorphism(disjoint_union(G, H)))
-
+timeList = dict()
+x = 0
+print(len(GL))
+for j in range(len(GL)):
+    if j != 0:
+        timeEntry = []
+        G = GL[x]
+        H = GL[j]
+        key = str(x) + " and " + str(j)
+        start = time()
+        union = disjoint_union(G, H)
+        timeEntry.append(time() - start)
+        start = time()
+        timeEntry.append(is_isomorphism(union))
+        timeEntry.append(time() - start)
+        timeList[key] = timeEntry
+printTimeList(timeList)
+timeList = dict()
+for i in range(len(GL)):
+    for j in range(len(GL)):
+        if i == j:
+            timeEntry = []
+            G = GL[i]
+            H = GL[j]
+            key = str(i) + " and " + str(j)
+            start = time()
+            union = disjoint_union(G, H)
+            timeEntry.append(time() - start)
+            start = time()
+            timeEntry.append(is_isomorphism(union))
+            timeEntry.append(time() - start)
+            timeList[key] = timeEntry
+printTimeList(timeList)
