@@ -72,10 +72,14 @@ def printTimeList(timeList):
     print("Total average time:                  " + str(averageIso + averageUnion))
 # ----- MAIN -----
 
-GL, settings = loadgraph("graphs\\torus24.grl", FastGraph, True)
+GL, settings = loadgraph("graphs\\tree150.grl", FastGraph, True)
 timeList = dict()
 x = 0
-print(len(GL))
+y = 0
+for j in range(len(GL)):
+    x += len(GL[j].E())
+    y += 1
+print(x / y)
 for j in range(len(GL)):
     if j != 0:
         timeEntry = []
