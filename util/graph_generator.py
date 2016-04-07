@@ -25,7 +25,7 @@ def create_bipartite_random(n, m):
     V = g.V()
     for i in range(n):
         for j in range(n, n+m):
-            if random.choice:
+            if bool(random.getrandbits(1)):
                g.addedge(V[i], V[j])
     return g
 
@@ -47,11 +47,11 @@ def create_tripartite_random(n, m, p):
     V = g.V()
     for i in range(n):
         for j in range(n, n+m+p):
-            if random.choice:
+            if bool(random.getrandbits(1)):
                 g.addedge(V[i], V[j])
     for i in range(n, n+m):
         for j in range(n) and range(n+m, n+m+p):
-            if random.choice:
+            if bool(random.getrandbits(1)):
                 g.addedge(V[i], V[j])
     return g
 
